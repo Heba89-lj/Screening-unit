@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إقرار</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url("khaligyoun71065-1.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #000;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px 25px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 26px;
+      font-weight: 700;
+      color: #003366;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 12px 0;
+      line-height: 1.8;
+    }
+
+
+
+    input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #444;
+      background: transparent;
+      outline: none;
+      font-size: 17px;
+      padding: 6px 0;
+      color: #000;
+    }
+
+    input::placeholder {
+      color: #777;
+      font-style: italic;
+    }
+
+    .signature {
+      margin-top: 40px;
+      text-align: left;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .btns {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    button,
+    .back-btn {
+      background-color: #003366;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover,
+    .back-btn:hover {
+      background-color: #0055aa;
+      transform: scale(1.05);
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+    }
+
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      p.center {
+        text-align: center !important; 
+      }
+
+      input {
+        font-size: 16px;
+      }
+
+
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" id="content">
+    <h1>إقــــــــــــــرار</h1>
+
+    <p><strong>السيد</strong> رئيس نيابة الشئون الاقتصادية بالاسكندرية </p>
+    <p class="center">تحية طيبة وبعد... </p>
+
+    <p>مقدمه لسيادتكم / <input type="text" placeholder="أدخل الاسم الكامل هنا"></p>
+    <p>في القضية رقم / <input type="text" placeholder="أدخل رقم القضية"></p>
+    <p>لإسترداد مبلغ / <input type="text" placeholder="أدخل المبلغ المطلوب"></p>
+
+    <p>⮱ الإســم "رباعي" / <input type="text" placeholder="الاسم الرباعي"></p>
+    <p>⮱ محل الإقامة / <input type="text" placeholder="العنوان بالكامل"></p>
+    <p>⮱ العمل وعنوانه / <input type="text" placeholder="جهة العمل والعنوان"></p>
+    <p>⮱ اسم الوالدة "رباعي" / <input type="text" placeholder="اسم الأم الكامل"></p>
+    <p>⮱ اسم الزوجة "رباعي" / <input type="text" placeholder="اسم الزوجة الكامل"></p>
+    <p>⮱ اسم الأبناء / <input type="text" placeholder="أسماء الأبناء"></p>
+    <p>⮱ رقم البطاقة الضريبية / <input type="text" placeholder="رقم البطاقة الضريبية"></p>
+
+    <p class="signature">✍ المقر بما فيه</p>
+
+    <div class="btns no-print">
+      <a href="index.html" class="back-btn">العودة إلى الصفحة الرئيسية</a>
+      <button id="downloadBtn">📄 تحميل كـ PDF</button>
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
+  <script>
+    const downloadBtn = document.getElementById("downloadBtn");
+    const btnsContainer = document.querySelector('.btns');
+
+    downloadBtn.addEventListener("click", () => {
+      const inputs = document.querySelectorAll("input, textarea");
+      let allFilled = true;
+
+      // ✅ التحقق من أن جميع الحقول ممتلئة
+      inputs.forEach(input => {
+        if (input.value.trim() === "") {
+          input.style.border = "2px solid red";
+          allFilled = false;
+        } else {
+          input.style.border = "1px solid #ccc";
+        }
+      });
+
+      if (!allFilled) {
+        alert("من فضلك املأ جميع الخانات قبل التحميل 📋");
+        return;
+      }
+
+      // ✅ إخفاء الأزرار قبل التحويل
+      btnsContainer.style.display = "none";
+
+      // ✅ تحويل الـ input إلى span بحيث الاتجاه يبقى RTL
+      const replacedInputs = [];
+      inputs.forEach(input => {
+        const span = document.createElement("span");
+        span.textContent = input.value || input.placeholder;
+        span.style.display = "inline-block";
+        span.style.borderBottom = "1px solid #444";
+        span.style.width = "100%";
+        span.style.direction = "rtl";
+        span.style.textAlign = "right";
+        span.style.padding = "6px 0";
+        span.style.fontSize = "17px";
+        span.style.color = "#000";
+        span.classList.add("pdf-text");
+
+        // حفظ العنصر الأصلي عشان نرجعه بعدين
+        replacedInputs.push({ parent: input.parentNode, original: input, newSpan: span });
+
+        input.parentNode.replaceChild(span, input);
+      });
+
+      // ✅ تحويل الصفحة إلى PDF
+      const content = document.getElementById("content");
+      const options = {
+        margin: [0, 0, 0, 0],
+        filename: 'إقرار.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          scrollY: 0
+        },
+        jsPDF: {
+          unit: 'px',
+          format: [content.scrollWidth, content.scrollHeight],
+          orientation: 'portrait'
+        }
+      };
+
+      html2pdf().set(options).from(content).save().then(() => {
+        // ✅ بعد الحفظ نرجّع الـ inputs تاني
+        replacedInputs.forEach(item => {
+          item.parent.replaceChild(item.original, item.newSpan);
+        });
+
+        // ✅ نعرض الأزرار تاني
+        btnsContainer.style.display = "flex";
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <title>نيابة الشئون الاقتصادية وغسل الأموال</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Lateef", "Cairo", Arial, sans-serif;
+      direction: rtl;
+    }
+
+    body {
+      /* background-image: url('./images/background.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: rgba(0, 0, 0, 0.5);
+      background-blend-mode: overlay; */
+      background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
+
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* ✅ بدل "flex-end" خلتها "center" علشان الأزرار تكون في منتصف الشاشة */
+      flex: 1;
+      flex-direction: column;
+      /* ✅ تخليهم تحت بعض */
+      gap: 20px;
+      /* ✅ مسافة بين الأزرار */
+    }
+
+    .buttons-container {
+      display: flex;
+      flex-direction: column;
+      /* ✅ الأزرار تحت بعض */
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .buttons-container a {
+      display: inline-block;
+      padding: 15px 25px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      width: 220px;
+      /* ✅ نفس العرض لكل زر */
+      text-align: center;
+    }
+
+    .buttons-container a:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    footer {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .buttons-container a {
+        width: 100%;
+        /* ✅ عرض متجاوب على الموبايل */
+        padding: 12px 20px;
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="header"></div>
+
+  <main>
+    <div class="buttons-container">
+      <a href="papers.html" target="_blank">الأوراق المطلوبة</a>
+      <a href="inquiry.html" target="_blank">الاستعلامات</a>
+      <a href="search.html">الاستعلام عن الفحص</a>
+      <a href="id.html">للحصول على رقم الفحص</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 نيابة الشئون الاقتصادية وغسل الأموال - الإسكندرية</p>
+  </footer>
+
+  <script>
+    // ✅ تحميل الهيدر الخارجى
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header').innerHTML = data;
+      })
+      .catch(error => console.error('خطأ في تحميل الهيدر:', error));
+
+    // ✅ تحديث الـ service worker (لو موجود)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      }).then(() => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(() => console.log('✅ Service Worker Registered من جديد'))
+          .catch(err => console.error('❌ فشل التسجيل:', err));
+      });
+    }
+  </script>
+</body>
+
+
+</html>

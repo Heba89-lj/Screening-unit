@@ -1,0 +1,336 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الجهات المستعلم منها</title>
+
+  <!-- خطوط وأيقونات -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0 0 80px 0;
+      font-family: "Lateef", "Cairo", sans-serif;
+           background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
+
+      /* background-image: url("images/background.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-attachment: scroll; */
+      /* background-position: center; */
+      /* background-color: rgba(0, 0, 0, 0.5);
+      background-blend-mode: overlay; */
+      color: #fff;
+      /* display: flex; */
+      /* flex-direction: column; */
+      /* align-items: stretch; */
+      /* justify-content: flex-start; */
+      min-height: 100vh;
+      text-align: right;
+      /* overflow-x: hidden; */
+      position: relative;
+    }
+/* 
+    #main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      width: 100%;
+      flex-grow: 1;
+      text-align: right;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(60px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 2.8em;
+      margin-right: 30px;
+      margin-top: 20px;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: slideInUp 1s ease forwards;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0 40px 0 0;
+      margin-top: 10px;
+      width: 85%;
+      text-align: right;
+    }
+
+    ul li {
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 15px;
+      font-size: 1.4em;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      animation: slideInUp 0.8s ease forwards;
+      color: #000;
+    }
+
+    ul li:nth-child(1) {
+      animation-delay: 0.5s;
+    }
+
+    ul li:nth-child(2) {
+      animation-delay: 0.8s;
+    }
+
+    ul li:nth-child(3) {
+      animation-delay: 1.1s;
+    }
+
+    ul li:nth-child(4) {
+      animation-delay: 1.4s;
+    }
+
+    ul li:nth-child(5) {
+      animation-delay: 1.7s;
+    }
+
+    ul li:hover {
+      transform: translateY(-5px);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
+    }
+
+    .next-btn {
+      position: absolute;
+      bottom: 30px;
+      right: 50%;
+      transform: translateX(50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: slideInUp 1s ease forwards;
+      animation-delay: 2s;
+    }
+
+    .next-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+      color: #00f;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        background-attachment: scroll;
+        background-size: cover;
+        align-items: center;
+        text-align: center;
+        min-height: 80vh;
+      }
+
+      #main-content {
+        align-items: center;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 1.8em;
+        margin: 0 10px 10px 10px;
+      }
+
+      ul {
+        padding: 0 15px;
+        width: 95%;
+      }
+
+      ul li {
+        font-size: 1.1em;
+        padding: 12px;
+      }
+
+      .next-btn {
+        font-size: 1em;
+        bottom: 20px;
+      }
+    } */
+     /* ✨ حركة الدخول من الأسفل */
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(60px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 🔹 جسم الصفحة */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 20px 40px;
+      animation: slideInUp 1s ease forwards;
+    }
+
+    /* 🔹 العنوان */
+    h1 {
+      font-size: 2.8em;
+      margin: 20px 0 10px 0;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: slideInUp 1s ease forwards;
+    }
+
+    /* 🔹 قائمة السطور */
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+      width: 85%;
+      text-align: right;
+    }
+
+    ul li {
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 15px;
+      font-size: 2.5em;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      animation: slideInUp 0.8s ease forwards;
+      color: #000;
+    }
+
+    ul li a {
+      display: block;
+      text-decoration: none;
+      color: #000;
+      width: 100%;
+      height: 100%;
+    }
+
+    ul li:hover,
+    ul li a:hover {
+      transform: translateY(-5px);
+      color: #fff;
+      font-size: 2.6em;
+    }
+
+    ul li:nth-child(1) { animation-delay: 0.5s; }
+    ul li:nth-child(2) { animation-delay: 0.8s; }
+    ul li:nth-child(3) { animation-delay: 1.1s; }
+    ul li:nth-child(4) { animation-delay: 1.4s; }
+
+    /* 🔹 الزر في الأسفل */
+    /* .next-btn {
+      position: absolute;
+      bottom: 30px;
+      right: 50%;
+      transform: translateX(50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: slideInUp 1s ease forwards;
+      animation-delay: 1.8s;
+    }
+
+    .next-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+      color: #00f;
+    } */
+
+    /* 📱 استجابة الموبايل */
+    @media (max-width: 600px) {
+      .main-content {
+        align-items: center;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      ul {
+        width: 95%;
+      }
+
+      ul li {
+        font-size: 1.7em;
+        padding: 12px;
+      }
+
+      .next-btn {
+        font-size: 1em;
+        bottom: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 🟢 تحميل الهيدر الخارجي -->
+  <div id="header"></div>
+
+  <!-- 🟣 جسم الصفحة داخل ديف منفصل -->
+  <div class="main-content">
+    <h1>الجهات المستعلم منها عن مقدم الطلب</h1>
+
+    <ul>
+      <li>الإدارة المركزية لتجميع البيانات بمصلحة الضرائب</li>
+      <li>إدارة المطالبات القضائية بوزارة العدل</li>
+      <li>إدارة المطالبات الجنائية بمكتب النائب العام</li>
+      <li>إدارة الكسب غير المشروع</li>
+      <li>إدارة تنفيذ الأحكام</li>
+    </ul>
+
+    <!-- <a href="index.html" class="next-btn">العودة إلى الصفحة الرئيسية</a>
+  </div> -->
+
+  <!-- ✅ تحميل الهيدر بعد تحميل الصفحة بالكامل -->
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header').innerHTML = data;
+      })
+      .catch(error => console.error('خطأ في تحميل الهيدر:', error));
+  </script>
+
+</body>
+</html>

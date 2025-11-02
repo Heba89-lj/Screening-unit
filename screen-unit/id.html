@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الاستعلام بالرقم القومي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- خطوط وأيقونات -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0 0 80px 0;
+      font-family: "Lateef", "Cairo", sans-serif;
+      background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
+      color: #fff;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    h1 { color: #fff; margin: 20px 0; }
+
+    input {
+      padding: 10px;
+      width: 90%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 10px;
+      background-color: #5b6a7a;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover { background-color: #80b0e4; }
+
+    table {
+      width: 95%;
+      max-width: 800px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      color: black;
+    }
+
+    th {
+      background-color: #789ec7;
+      color: white;
+      padding: 10px;
+    }
+
+    td {
+      padding: 10px;
+      text-align: right;
+      border-bottom: 1px solid #ddd;
+    }
+
+    @media (max-width: 600px) {
+      input, button { width: 80%; font-size: 14px; }
+      table { font-size: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div id="main-content">
+    <h1>الاستعلام عن الفحص بالرقم القومي</h1>
+    <input id="nationalId" placeholder="أدخل الرقم القومي المكون من 14 رقمًا" maxlength="14">
+    <button id="searchBtn">بحث</button>
+
+    <div id="result" style="margin-top:20px; font-weight:bold;"></div>
+  </div>
+
+  <script>
+    // ✅ تحميل الهيدر
+    fetch("header.html").then(res => res.text()).then(html => document.getElementById("header").innerHTML = html);
+
+    function normalize(str = "") {
+      return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", async () => {
+      const id = normalize(document.getElementById("nationalId").value.trim());
+      const resultDiv = document.getElementById("result");
+
+      if (!/^\d{14}$/.test(id)) {
+        resultDiv.innerHTML = "<p style='color:red'>الرقم القومي يجب أن يكون 14 رقمًا فقط.</p>";
+        return;
+      }
+
+      resultDiv.innerHTML = "<p>جارٍ البحث...</p>";
+
+      try {
+        const response = await fetch(`/api/id?id=${encodeURIComponent(id)}`);
+        const data = await response.json();
+
+        if (!data.success || data.results.length === 0) {
+          resultDiv.innerHTML = "<p style='color:red'>لا توجد بيانات لهذا الرقم القومي.</p>";
+        } else {
+          let table = `
+            <table>
+              <thead>
+                <tr>
+                  <th>رقم الفحص</th>
+                  <th>السنة</th>
+                  <th>اسم مقدم الطلب</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+          data.results.forEach(row => {
+            table += `
+              <tr>
+                <td>${row.number}</td>
+                <td>${row.year}</td>
+                <td>${row.applicant}</td>
+              </tr>
+            `;
+          });
+          table += "</tbody></table>";
+          resultDiv.innerHTML = table;
+        }
+      } catch (err) {
+        console.error(err);
+        resultDiv.innerHTML = "<p style='color:red'>حدث خطأ أثناء الاتصال بالسيرفر.</p>";
+      }
+    });
+  </script>
+</body>
+</html>
