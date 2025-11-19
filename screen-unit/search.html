@@ -129,6 +129,9 @@
     }
   });
 
+// 🟢 الحل هنا — شغل change أول ما الصفحة تفتح
+document.getElementById("idType").dispatchEvent(new Event("change"));
+  
   async function search(number, year, identity) {
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = "جارٍ البحث...";
@@ -201,6 +204,7 @@
 
 </body>
 </html>
+
 
 
 
