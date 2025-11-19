@@ -77,7 +77,7 @@ export default async function handler(req,res){
     if(type==="nationalId"){
       matches=rows.filter(r=>normalize(r[2]||"").includes(identifier));
     } else if(type==="passport"){
-      matches=rows.filter(r=>normalize(r[8]||"").replace(/\s/g,"").toUpperCase().includes(identifier.toUpperCase())); // افترضنا جواز السفر في العمود 9
+      matches=rows.filter(r=>normalize(r[2]||"").replace(/\s/g,"").toUpperCase().includes(identifier.toUpperCase())); // افترضنا جواز السفر في العمود 9
     }
 
     if(matches.length>0){
@@ -96,3 +96,4 @@ export default async function handler(req,res){
     return res.status(500).json({success:false,message:"حدث خطأ في السيرفر"});
   }
 }
+
