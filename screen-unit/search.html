@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+ <!-- <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>الاستفسار عن الفحص</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+  -->
   <!-- خطوط وأيقونات -->
-
+<!-- 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,19 +17,14 @@
        margin: 0;
       padding: 0 0 80px 0;
       font-family: "Lateef", "Cairo", sans-serif;
-      /* background-image: url("images/background.png");
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      background-attachment: scroll;
-      background-color: rgba(0, 0, 0, 0.5);
-      background-blend-mode: overlay; */
+   
         background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
 
       color: #fff;
       text-align: center;
       position: relative;
       min-height: 100vh;
-    }
+    } -->
 
 
     /* ✅ محتوى الصفحة */
@@ -102,16 +97,16 @@
       table { font-size: 14px; }
       input, button { width: 50%; font-size: 14px; }
     }
-  </style>
+  <!-- </style>
 </head>
 
-<body>
+<body> -->
 
   <!-- ✅ تحميل الهيدر من ملف خارجي -->
-  <div id="header"></div>
+  <!-- <div id="header"></div> -->
 
   <!-- ✅ محتوى الصفحة -->
-  <div id="main-content">
+  <!-- <div id="main-content">
     <h1>الاستفسار عن الفحص</h1>
 
     <input id="number" placeholder="رقم الفحص" list="previousNumbers">
@@ -126,26 +121,26 @@
     <button id="searchBtn">بحث</button>
 
     <div id="result" style="margin-top:20px; font-weight:bold;"></div>
-  </div>
+  </div> -->
 
-  <script>
+  <!-- <script> -->
     // ✅ تحميل الهيدر من ملف منفصل
-    fetch("header.html")
-      .then(res => res.text())
-      .then(html => document.getElementById("header").innerHTML = html);
+    // fetch("header.html")
+    //   .then(res => res.text())
+    //   .then(html => document.getElementById("header").innerHTML = html);
 
-    function normalize(str = "") {
-      return str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
-    }
+    // function normalize(str = "") {
+    //   return str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
+    // }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
+    // function escapeHtml(str) {
+    //   return String(str)
+    //     .replace(/&/g, "&amp;")
+    //     .replace(/</g, "&lt;")
+    //     .replace(/>/g, "&gt;")
+    //     .replace(/"/g, "&quot;")
+    //     .replace(/'/g, "&#039;");
+    // }
 
     // ✅ تحميل القيم المحفوظة
     const storedNumbers = JSON.parse(localStorage.getItem("searchNumbers") || "[]");
@@ -180,7 +175,7 @@
         if (data.success) {
           const r = data.result;
           resultDiv.innerHTML = `
-            <table>
+            <!-- <table>
               <tr><th>رقم الفحص</th><td>${escapeHtml(r.number || "-")}</td></tr>
               <tr><th>السنة</th><td>${escapeHtml(r.year || "-")}</td></tr>
               <tr><th>رقم القضية</th><td>${escapeHtml(r.caseNumber || "-")}</td></tr>
@@ -191,7 +186,7 @@
             </table>`;
         } else {
           resultDiv.textContent = data.message || "لم يتم العثور على بيانات لهذا الفحص.";
-        }
+        } -->
 
         // ✅ حفظ الثلاث قيم
         saveValue(storedNumbers, "searchNumbers", number);
@@ -227,6 +222,199 @@
 
       search(number, year, nationalId);
     });
-  </script>
+  <!-- </script>
+</body>
+
+</html>  -->
+
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الاستفسار عن الفحص</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0 0 80px 0;
+      font-family: "Lateef", "Cairo", sans-serif;
+      background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
+      color: #fff;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    #main-content { padding: 20px; }
+
+    select, input {
+      padding: 10px;
+      margin: 5px;
+      width: 90%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+
+    button {
+      background-color: #5b6a7a;
+      color: white;
+      border: none;
+      padding: 10px 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      width: 200px;
+    }
+
+    button:hover { background-color: #80b0e4; }
+
+    table {
+      width: 95%;
+      max-width: 800px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th {
+      background: #789ec7;
+      color: white;
+      padding: 10px;
+      width: 35%;
+      text-align: right;
+    }
+
+    td {
+      color: black;
+      padding: 10px;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .prewrap { white-space: pre-wrap; }
+  </style>
+</head>
+
+<body>
+
+<div id="main-content">
+
+  <h1>الاستفسار عن الفحص</h1>
+
+  <!-- اختيار نوع الهوية -->
+  <select id="idType">
+    <option value="national">رقم قومي</option>
+    <option value="passport">جواز سفر</option>
+  </select>
+
+  <!-- الحقل المتغير -->
+  <input id="nationalId" placeholder="أدخلي الرقم القومي (14 رقم)" />
+
+  <input id="number" placeholder="رقم الفحص">
+  <input id="year" placeholder="السنة">
+
+  <button id="searchBtn">بحث</button>
+
+  <div id="result" style="margin-top:20px; font-weight:bold;"></div>
+
+</div>
+
+<script>
+  function normalize(str = "") {
+    return str
+      .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+      .replace(/\s+/g, "")
+      .trim();
+  }
+
+  // تغيير Placeholder عند تغيير النوع
+  document.getElementById("idType").addEventListener("change", () => {
+    const id = document.getElementById("idType").value;
+    const input = document.getElementById("nationalId");
+
+    input.value = "";
+
+    if (id === "national") {
+      input.placeholder = "أدخلي الرقم القومي (14 رقم)";
+      input.maxLength = 14;
+    } else {
+      input.placeholder = "أدخلي رقم جواز السفر";
+      input.maxLength = 10;
+    }
+  });
+
+  async function search(number, year, identity) {
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "جارٍ البحث...";
+
+    try {
+      const res = await fetch(`/api/search?number=${number}&year=${year}&nationalId=${identity}`);
+      const data = await res.json();
+
+      if (data.success) {
+        const r = data.result;
+
+        resultDiv.innerHTML = `
+        <table>
+          <tr><th>رقم الفحص</th><td>${r.number || "-"}</td></tr>
+          <tr><th>السنة</th><td>${r.year || "-"}</td></tr>
+          <tr><th>رقم القضية</th><td>${r.caseNumber || "-"}</td></tr>
+          <tr><th>اسم مقدم الطلب</th><td>${r.applicant || "-"}</td></tr>
+          <tr><th>حالة الفحص</th><td>${r.status || "-"}</td></tr>
+          <tr><th>ماتم</th><td class="prewrap">${r.visa || "-"}</td></tr>
+          <tr><th>ملاحظات</th><td class="prewrap">${r.notes || "-"}</td></tr>
+        </table>`;
+      } else {
+        resultDiv.textContent = data.message;
+      }
+
+    } catch (err) {
+      resultDiv.textContent = "حدث خطأ في الاتصال بالسيرفر.";
+    }
+  }
+
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const number = normalize(document.getElementById("number").value);
+    const year = normalize(document.getElementById("year").value);
+    const input = normalize(document.getElementById("nationalId").value);
+    const type = document.getElementById("idType").value;
+
+    if (!number || !year || !input) {
+      return document.getElementById("result").textContent =
+        "من فضلك أدخلي جميع البيانات.";
+    }
+
+    if (type === "national") {
+      if (input.length !== 14 || !/^\d{14}$/.test(input)) {
+        return document.getElementById("result").textContent =
+          "الرقم القومي يجب أن يتكون من 14 رقمًا فقط.";
+      }
+    }
+
+    if (type === "passport") {
+      if (!/[A-Za-z]/.test(input) || !/[0-9]/.test(input)) {
+        return document.getElementById("result").textContent =
+          "رقم جواز السفر يجب أن يحتوي على حروف وأرقام معًا.";
+      }
+      if (input.length > 10) {
+        return document.getElementById("result").textContent =
+          "رقم جواز السفر يجب ألا يزيد عن 10 خانات.";
+      }
+    }
+
+    search(number, year, input);
+  });
+</script>
+
 </body>
 </html>
