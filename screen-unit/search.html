@@ -1,49 +1,40 @@
- <!DOCTYPE html>
+
+
+
+
+
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>الاستفسار عن الفحص</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-  <!-- خطوط وأيقونات -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
     body {
-       margin: 0;
+      margin: 0;
       padding: 0 0 80px 0;
       font-family: "Lateef", "Cairo", sans-serif;
-   
-        background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
-
+      background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
       color: #fff;
-      text-align: center;
-      position: relative;
       min-height: 100vh;
-    } 
-
-
-    /* ✅ محتوى الصفحة */
-    #main-content {
-      padding: 20px;
+      text-align: center;
     }
 
-    h1 {
-      color: black;
-      margin-bottom: 20px;
-    }
+    #main-content { padding: 20px; }
 
-    input, datalist {
+    select, input {
       padding: 10px;
       margin: 5px;
       width: 90%;
       max-width: 300px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 18px;
     }
 
     button {
@@ -53,12 +44,11 @@
       padding: 10px 5px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
+      width: 200px;
     }
 
-    button:hover {
-      background-color: #80b0e4;
-    }
+    button:hover { background-color: #80b0e4; }
 
     table {
       width: 95%;
@@ -66,167 +56,142 @@
       margin: 20px auto;
       border-collapse: collapse;
       background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       border-radius: 10px;
       overflow: hidden;
-      table-layout: fixed;
     }
 
     th {
-      background-color: #789ec7;
+      background: #789ec7;
       color: white;
-      text-align: right;
       padding: 10px;
       width: 35%;
+      text-align: right;
     }
 
     td {
+      color: black;
       padding: 10px;
       text-align: right;
       word-break: break-word;
-      overflow-wrap: anywhere;
-      white-space: normal;
-      vertical-align: top;
-      color: black;
     }
 
-    .prewrap { white-space: pre-wrap; word-break: break-word; }
-
-    @media (max-width: 600px) {
-      table { font-size: 14px; }
-      input, button { width: 50%; font-size: 14px; }
-    }
+    .prewrap { white-space: pre-wrap; }
   </style>
 </head>
 
- <body> 
+<body>
 
-  <!-- ✅ تحميل الهيدر من ملف خارجي -->
- <div id="header"></div>
+<div id="main-content">
 
-  <!-- ✅ محتوى الصفحة -->
-   <div id="main-content">
-    <h1>الاستفسار عن الفحص</h1>
+  <h1>الاستفسار عن الفحص</h1>
 
-    <input id="number" placeholder="رقم الفحص" list="previousNumbers">
-    <datalist id="previousNumbers"></datalist>
+  <!-- اختيار نوع الهوية -->
+  <select id="idType">
+    <option value="national">رقم قومي</option>
+    <option value="passport">جواز سفر</option>
+  </select>
 
-    <input id="year" placeholder="السنة" list="previousYears">
-    <datalist id="previousYears"></datalist>
+  <!-- الحقل المتغير -->
+  <input id="nationalId" placeholder="أدخلي الرقم القومي (14 رقم)" />
 
-    <input id="nationalId" placeholder="الرقم القومي" maxlength="14" list="previousNationalIds">
-    <datalist id="previousNationalIds"></datalist>
+  <input id="number" placeholder="رقم الفحص">
+  <input id="year" placeholder="السنة">
 
-    <button id="searchBtn">بحث</button>
+  <button id="searchBtn">بحث</button>
 
-    <div id="result" style="margin-top:20px; font-weight:bold;"></div>
-  </div>
- <script>
-    // ✅ تحميل الهيدر من ملف منفصل
-    fetch("header.html")
-      .then(res => res.text())
-  .then(html => document.getElementById("header").innerHTML = html);
+  <div id="result" style="margin-top:20px; font-weight:bold;"></div>
 
-    function normalize(str = "") {
-      return str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
+</div>
+
+<script>
+  function normalize(str = "") {
+    return str
+      .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+      .replace(/\s+/g, "")
+      .trim();
+  }
+
+  // تغيير Placeholder عند تغيير النوع
+  document.getElementById("idType").addEventListener("change", () => {
+    const id = document.getElementById("idType").value;
+    const input = document.getElementById("nationalId");
+
+    input.value = "";
+
+    if (id === "national") {
+      input.placeholder = "أدخل الرقم القومي (14 رقم)";
+      input.maxLength = 14;
+    } else {
+      input.placeholder = "أدخل رقم جواز السفر";
+      input.maxLength = 10;
+    }
+  });
+
+  async function search(number, year, identity) {
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "جارٍ البحث...";
+
+    try {
+      const res = await fetch(`/api/search?number=${number}&year=${year}&nationalId=${identity}`);
+      const data = await res.json();
+
+      if (data.success) {
+        const r = data.result;
+
+        resultDiv.innerHTML = `
+        <table>
+          <tr><th>رقم الفحص</th><td>${r.number || "-"}</td></tr>
+          <tr><th>السنة</th><td>${r.year || "-"}</td></tr>
+          <tr><th>رقم القضية</th><td>${r.caseNumber || "-"}</td></tr>
+          <tr><th>اسم مقدم الطلب</th><td>${r.applicant || "-"}</td></tr>
+          <tr><th>حالة الفحص</th><td>${r.status || "-"}</td></tr>
+          <tr><th>ماتم</th><td class="prewrap">${r.visa || "-"}</td></tr>
+          <tr><th>ملاحظات</th><td class="prewrap">${r.notes || "-"}</td></tr>
+        </table>`;
+      } else {
+        resultDiv.textContent = data.message;
+      }
+
+    } catch (err) {
+      resultDiv.textContent = "حدث خطأ في الاتصال بالسيرفر.";
+    }
+  }
+
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const number = normalize(document.getElementById("number").value);
+    const year = normalize(document.getElementById("year").value);
+    const input = normalize(document.getElementById("nationalId").value);
+    const type = document.getElementById("idType").value;
+
+    if (!number || !year || !input) {
+      return document.getElementById("result").textContent =
+        "من فضلك أدخلي جميع البيانات.";
     }
 
-   function escapeHtml(str) {
-       return String(str)
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
-     }
-
-    // ✅ تحميل القيم المحفوظة
-    const storedNumbers = JSON.parse(localStorage.getItem("searchNumbers") || "[]");
-    const storedYears = JSON.parse(localStorage.getItem("searchYears") || "[]");
-    const storedNationalIds = JSON.parse(localStorage.getItem("searchNationalIds") || "[]");
-
-    function updateDatalist(id, data) {
-      document.getElementById(id).innerHTML =
-        data.map(value => `<option value="${value}"></option>`).join("");
-    }
-
-    updateDatalist("previousNumbers", storedNumbers);
-    updateDatalist("previousYears", storedYears);
-    updateDatalist("previousNationalIds", storedNationalIds);
-
-    function saveValue(array, key, value) {
-      if (value && !array.includes(value)) {
-        array.unshift(value);
-        if (array.length > 10) array.pop();
-        localStorage.setItem(key, JSON.stringify(array));
+    if (type === "national") {
+      if (input.length !== 14 || !/^\d{14}$/.test(input)) {
+        return document.getElementById("result").textContent =
+          "الرقم القومي يجب أن يتكون من 14 رقمًا فقط.";
       }
     }
 
-    async function search(number, year, nationalId) {
-      const resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = "جارٍ البحث...";
-
-      try {
-        const res = await fetch(`/api/search?number=${encodeURIComponent(number)}&year=${encodeURIComponent(year)}&nationalId=${encodeURIComponent(nationalId)}`);
-        const data = await res.json();
-
-        if (data.success) {
-          const r = data.result;
-          resultDiv.innerHTML = `
-            <!-- <table>
-              <tr><th>رقم الفحص</th><td>${escapeHtml(r.number || "-")}</td></tr>
-              <tr><th>السنة</th><td>${escapeHtml(r.year || "-")}</td></tr>
-              <tr><th>رقم القضية</th><td>${escapeHtml(r.caseNumber || "-")}</td></tr>
-              <tr><th>اسم مقدم الطلب</th><td>${escapeHtml(r.applicant || "-")}</td></tr>
-              <tr><th> حالة الفحص</th> <td>${escapeHtml(r.status || "-")}</td></tr>
-              <tr><th> ماتم فى الفحص</th><td class="prewrap">${escapeHtml(r.visa || "-").replace(/\r?\n/g, "<br>")}</td></tr>
-              <tr><th>ملاحظات</th><td class="prewrap">${escapeHtml(r.notes || "-").replace(/\r?\n/g, "<br>")}</td></tr>
-            </table>`;
-        } else {
-          resultDiv.textContent = data.message || "لم يتم العثور على بيانات لهذا الفحص.";
-        } -->
-
-        // ✅ حفظ الثلاث قيم
-        saveValue(storedNumbers, "searchNumbers", number);
-        saveValue(storedYears, "searchYears", year);
-        saveValue(storedNationalIds, "searchNationalIds", nationalId);
-
-        updateDatalist("previousNumbers", storedNumbers);
-        updateDatalist("previousYears", storedYears);
-        updateDatalist("previousNationalIds", storedNationalIds);
-
-      } catch (err) {
-        console.error(err);
-        resultDiv.textContent = "حدث خطأ في الاتصال بالسيرفر.";
+    if (type === "passport") {
+      if (!/[A-Za-z]/.test(input) || !/[0-9]/.test(input)) {
+        return document.getElementById("result").textContent =
+          "رقم جواز السفر يجب أن يحتوي على حروف وأرقام معًا.";
+      }
+      if (input.length > 10) {
+        return document.getElementById("result").textContent =
+          "رقم جواز السفر يجب ألا يزيد عن 10 خانات.";
       }
     }
 
-    document.getElementById("searchBtn").addEventListener("click", () => {
-      const number = normalize(document.getElementById("number").value.trim());
-      const year = normalize(document.getElementById("year").value.trim());
-      const nationalId = normalize(document.getElementById("nationalId").value.trim());
+    search(number, year, input);
+  });
+</script>
 
-      if (!number || !year || !nationalId) {
-        document.getElementById("result").textContent =
-          "من فضلك أدخل رقم الفحص والسنة والرقم القومي.";
-        return;
-      }
-
-      if (nationalId.length !== 14) {
-        document.getElementById("result").textContent =
-          "يجب أن يتكون الرقم القومي من 14 رقمًا بالضبط.";
-        return;
-      }
-
-      search(number, year, nationalId);
-    });
-   </script>
 </body>
-
-</html> 
-
-
-
+</html>
 
 
 
