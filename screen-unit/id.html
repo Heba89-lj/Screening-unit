@@ -71,6 +71,10 @@
     }
   });
 
+    // 🟢 الحل هنا — شغل change أول ما الصفحة تفتح
+document.getElementById("idType").dispatchEvent(new Event("change"));
+
+    
   // عند الضغط على زر البحث
   document.getElementById("searchBtn").addEventListener("click", async () => {
     const type = document.getElementById("idType").value;
@@ -158,5 +162,6 @@
 
 </body>
 </html>
+
 
 
