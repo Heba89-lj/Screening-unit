@@ -43,49 +43,120 @@
   </div>
 
   <script>
-    fetch("header.html").then(res=>res.text()).then(html=>document.getElementById("header").innerHTML=html);
+  // تحميل الهيدر
+  fetch("header.html")
+    .then(res => res.text())
+    .then(html => (document.getElementById("header").innerHTML = html));
 
-    function normalize(str="") {
-      return str.replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
+  // دالة لتحويل الأرقام العربية لعادية
+  function normalize(str = "") {
+    return str
+      .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+      .trim();
+  }
+
+  // تغيير Placeholder حسب نوع الهوية
+  document.getElementById("idType").addEventListener("change", () => {
+    const type = document.getElementById("idType").value;
+    const input = document.getElementById("identifier");
+
+    input.value = "";
+
+    if (type === "nationalId") {
+      input.placeholder = "أدخل الرقم القومي (14 رقم)";
+      input.maxLength = 14;
+    } else {
+      input.placeholder = "أدخل رقم جواز السفر (حتى 10 خانات)";
+      input.maxLength = 10;
+    }
+  });
+
+  // عند الضغط على زر البحث
+  document.getElementById("searchBtn").addEventListener("click", async () => {
+    const type = document.getElementById("idType").value;
+    const rawInput = document.getElementById("identifier").value.trim();
+    const value = normalize(rawInput);
+    const resultDiv = document.getElementById("result");
+
+    // -------------------------------
+    //   🔍  الفاليديشن الموحد
+    // -------------------------------
+
+    // رقم قومي
+    if (type === "nationalId") {
+      if (!/^\d{14}$/.test(value)) {
+        resultDiv.innerHTML =
+          "<p style='color:red'>الرقم القومي يجب أن يتكون من 14 رقمًا فقط.</p>";
+        return;
+      }
     }
 
-    document.getElementById("searchBtn").addEventListener("click", async () => {
-      const type = document.getElementById("idType").value;
-      let value = normalize(document.getElementById("identifier").value.trim());
-      const resultDiv = document.getElementById("result");
-
-      if (type === "nationalId" && !/^\d{14}$/.test(value)) {
-        resultDiv.innerHTML = "<p style='color:red'>الرقم القومي يجب أن يكون 14 رقمًا.</p>";
+    // جواز سفر
+    if (type === "passport") {
+      if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value)) {
+        resultDiv.innerHTML =
+          "<p style='color:red'>جواز السفر يجب أن يحتوي على حروف وأرقام معًا.</p>";
         return;
       }
 
-      if (type === "passport" && !/^[A-Za-z0-9]{10}$/.test(value)) {
-        resultDiv.innerHTML = "<p style='color:red'>جواز السفر يجب أن يكون 10 أحرف وأرقام.</p>";
+      if (value.length > 10) {
+        resultDiv.innerHTML =
+          "<p style='color:red'>جواز السفر يجب ألا يزيد عن 10 خانات.</p>";
         return;
       }
+    }
 
-      resultDiv.innerHTML = "<p>جارٍ البحث...</p>";
+    // -------------------------------
+    //     🔍  بدء البحث
+    // -------------------------------
 
-      try {
-        const response = await fetch(`/api/id?id=${encodeURIComponent(value)}&type=${type}`);
-        const data = await response.json();
+    resultDiv.innerHTML = "<p>جارٍ البحث...</p>";
 
-        if (!data.success || data.results.length === 0) {
-          resultDiv.innerHTML = "<p style='color:red'>لا توجد بيانات لهذا الرقم.</p>";
-        } else {
-          let table = `<table><thead><tr><th>رقم الفحص</th><th>السنة</th><th>اسم مقدم الطلب</th></tr></thead><tbody>`;
-          data.results.forEach(row=>{
-            table+=`<tr><td>${row.number}</td><td>${row.year}</td><td>${row.applicant}</td></tr>`;
-          });
-          table+="</tbody></table>";
-          resultDiv.innerHTML = table;
-        }
-      } catch(err) {
-        console.error(err);
-        resultDiv.innerHTML="<p style='color:red'>حدث خطأ أثناء الاتصال بالسيرفر.</p>";
+    try {
+      const response = await fetch(
+        `/api/id?id=${encodeURIComponent(value)}&type=${type}`
+      );
+
+      const data = await response.json();
+
+      if (!data.success || data.results.length === 0) {
+        resultDiv.innerHTML =
+          "<p style='color:red'>لا توجد بيانات لهذا الرقم.</p>";
+      } else {
+        let table = `
+          <table>
+            <thead>
+              <tr>
+                <th>رقم الفحص</th>
+                <th>السنة</th>
+                <th>اسم مقدم الطلب</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        data.results.forEach((row) => {
+          table += `
+            <tr>
+              <td>${row.number}</td>
+              <td>${row.year}</td>
+              <td>${row.applicant}</td>
+            </tr>
+          `;
+        });
+
+        table += "</tbody></table>";
+        resultDiv.innerHTML = table;
       }
-    });
-  </script>
+    } catch (err) {
+      console.error(err);
+      resultDiv.innerHTML =
+        "<p style='color:red'>حدث خطأ أثناء الاتصال بالسيرفر.</p>";
+    }
+  });
+</script>
+
 </body>
 </html>
+
 
