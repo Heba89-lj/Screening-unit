@@ -96,19 +96,35 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
     }
 
     // جواز سفر
-    if (type === "passport") {
-      if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value)) {
-        resultDiv.innerHTML =
-          "<p style='color:red'>جواز السفر يجب أن يحتوي على حروف وأرقام معًا.</p>";
-        return;
-      }
+    // if (type === "passport") {
+    //   if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value)) {
+    //     resultDiv.innerHTML =
+    //       "<p style='color:red'>جواز السفر يجب أن يحتوي على حروف وأرقام معًا.</p>";
+    //     return;
+    //   }
 
-      if (value.length > 10) {
-        resultDiv.innerHTML =
-          "<p style='color:red'>جواز السفر يجب ألا يزيد عن 10 خانات.</p>";
-        return;
-      }
-    }
+    //   if (value.length > 10) {
+    //     resultDiv.innerHTML =
+    //       "<p style='color:red'>جواز السفر يجب ألا يزيد عن 10 خانات.</p>";
+    //     return;
+    //   }
+    // }
+// جواز سفر
+if (type === "passport") {
+  // الحد الأقصى 10 خانات فقط
+  if (value.length > 10) {
+    resultDiv.innerHTML =
+      "<p style='color:red'>جواز السفر يجب ألا يزيد عن 10 خانات.</p>";
+    return;
+  }
+  
+  // منع الرموز والمسافات
+  if (!/^[A-Za-z0-9]+$/.test(value)) {
+    resultDiv.innerHTML =
+      "<p style='color:red'>جواز السفر يجب أن يحتوي على حروف أو أرقام فقط بدون رموز.</p>";
+    return;
+  }
+}
 
     // -------------------------------
     //     🔍  بدء البحث
@@ -162,6 +178,7 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
 
 </body>
 </html>
+
 
 
 
