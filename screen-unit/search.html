@@ -104,6 +104,7 @@
 
 </div>
 
+
 <script>
   function normalize(str = "") {
     return str
@@ -124,7 +125,7 @@
       input.maxLength = 14;
     } else {
       input.placeholder = "أدخل رقم جواز السفر";
-      input.maxLength = 10;
+      input.maxLength = 10;   // ⬅️ هنا تحديد الحد الأقصى
     }
   });
 
@@ -169,6 +170,7 @@
         "من فضلك أدخلي جميع البيانات.";
     }
 
+    // التحقق للرقم القومي
     if (type === "national") {
       if (input.length !== 14 || !/^\d{14}$/.test(input)) {
         return document.getElementById("result").textContent =
@@ -176,23 +178,30 @@
       }
     }
 
+    // التحقق لجواز السفر
     if (type === "passport") {
-      if (!/[A-Za-z]/.test(input) || !/[0-9]/.test(input)) {
-        return document.getElementById("result").textContent =
-          "رقم جواز السفر يجب أن يحتوي على حروف وأرقام معًا.";
-      }
+
+      // ❌ لو المستخدم كتب أكتر من 10
       if (input.length > 10) {
         return document.getElementById("result").textContent =
           "رقم جواز السفر يجب ألا يزيد عن 10 خانات.";
       }
+
+      // ❌ لازم يحتوي على حرف واحد على الأقل + رقم واحد على الأقل
+      if (!/[A-Za-z]/.test(input) || !/[0-9]/.test(input)) {
+        return document.getElementById("result").textContent =
+          "رقم جواز السفر يجب أن يحتوي على حروف وأرقام معًا.";
+      }
     }
 
+    // إرسال البحث بعد التحقق
     search(number, year, input);
   });
 </script>
 
 </body>
 </html>
+
 
 
 
