@@ -119,7 +119,7 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
 
     try {
       const response = await fetch(
-        `/api/id?nationalId=${encodeURIComponent(value)}&type=${type}`
+        `/api/id?id=${encodeURIComponent(value)}&type=${type}`
       );
 
       const data = await response.json();
@@ -163,6 +163,7 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
 
 </body>
 </html>
+
 
 
 
