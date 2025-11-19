@@ -418,3 +418,111 @@
 </body>
 </html>
 
+
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>بحث رقم الفحص</title>
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+      padding: 40px;
+      text-align: center;
+      background: #f5f5f5;
+    }
+    .container {
+      position: relative;
+      width: 300px;
+      margin: auto;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #999;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>الاستعلام عن الفحص</h2>
+
+  <div class="container">
+    <!-- Drop-down لتحديد النوع -->
+    <select id="idType">
+      <option value="nationalId">رقم قومي</option>
+      <option value="passport">جواز سفر</option>
+    </select>
+
+    <!-- خانة الإدخال -->
+    <input type="text" id="idInput" placeholder="أدخل الرقم القومي">
+  </div>
+
+  <button onclick="validateAndSearch()">بحث</button>
+
+  <p id="result"></p>
+
+  <script>
+    const typeSelect = document.getElementById("idType");
+    const input = document.getElementById("idInput");
+    const result = document.getElementById("result");
+
+    // تغيير placeholder حسب الاختيار
+    typeSelect.addEventListener("change", () => {
+      if(typeSelect.value === "nationalId") {
+        input.placeholder = "أدخل الرقم القومي";
+        input.value = "";
+      } else {
+        input.placeholder = "أدخل رقم جواز السفر";
+        input.value = "";
+      }
+      result.textContent = "";
+    });
+
+    function normalize(str = "") {
+      return str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
+    }
+
+    function validateAndSearch() {
+      const type = typeSelect.value;
+      const val = normalize(input.value);
+
+      if(!val) {
+        result.textContent = "⚠️ الرجاء إدخال القيمة المطلوبة";
+        return;
+      }
+
+      if(type === "nationalId") {
+        if(!/^\d{14}$/.test(val)) {
+          result.textContent = "❌ يجب أن يتكون الرقم القومي من 14 رقمًا بالضبط";
+          return;
+        }
+      } else if(type === "passport") {
+        if(!/^[A-Za-z0-9]{1,10}$/.test(val)) {
+          result.textContent = "❌ جواز السفر يجب أن يكون حروف وأرقام حتى 10 خانات";
+          return;
+        }
+      }
+
+      // هنا تحطي الكود اللي بيعمل fetch للبيانات حسب val وtype
+      result.textContent = `✅ البحث ناجح على ${type}: ${val}`;
+    }
+  </script>
+
+</body>
+</html>
+
