@@ -1,12 +1,12 @@
- <!-- <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>الاستفسار عن الفحص</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  -->
+ 
   <!-- خطوط وأيقونات -->
-<!-- 
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
       text-align: center;
       position: relative;
       min-height: 100vh;
-    } -->
+    } 
 
 
     /* ✅ محتوى الصفحة */
@@ -97,16 +97,16 @@
       table { font-size: 14px; }
       input, button { width: 50%; font-size: 14px; }
     }
-  <!-- </style>
+  </style>
 </head>
 
-<body> -->
+ <body> 
 
   <!-- ✅ تحميل الهيدر من ملف خارجي -->
-  <!-- <div id="header"></div> -->
+ <div id="header"></div>
 
   <!-- ✅ محتوى الصفحة -->
-  <!-- <div id="main-content">
+   <div id="main-content">
     <h1>الاستفسار عن الفحص</h1>
 
     <input id="number" placeholder="رقم الفحص" list="previousNumbers">
@@ -121,26 +121,25 @@
     <button id="searchBtn">بحث</button>
 
     <div id="result" style="margin-top:20px; font-weight:bold;"></div>
-  </div> -->
-
-  <!-- <script> -->
+  </div>
+ <script>
     // ✅ تحميل الهيدر من ملف منفصل
-    // fetch("header.html")
-    //   .then(res => res.text())
-    //   .then(html => document.getElementById("header").innerHTML = html);
+    fetch("header.html")
+      .then(res => res.text())
+  .then(html => document.getElementById("header").innerHTML = html);
 
-    // function normalize(str = "") {
-    //   return str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
-    // }
+    function normalize(str = "") {
+      return str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
+    }
 
-    // function escapeHtml(str) {
-    //   return String(str)
-    //     .replace(/&/g, "&amp;")
-    //     .replace(/</g, "&lt;")
-    //     .replace(/>/g, "&gt;")
-    //     .replace(/"/g, "&quot;")
-    //     .replace(/'/g, "&#039;");
-    // }
+   function escapeHtml(str) {
+       return String(str)
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+     }
 
     // ✅ تحميل القيم المحفوظة
     const storedNumbers = JSON.parse(localStorage.getItem("searchNumbers") || "[]");
@@ -222,10 +221,10 @@
 
       search(number, year, nationalId);
     });
-  <!-- </script>
+   </script>
 </body>
 
-</html>  -->
+</html> 
 
 
 
@@ -418,3 +417,4 @@
 
 </body>
 </html>
+
