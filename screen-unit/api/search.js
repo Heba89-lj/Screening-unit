@@ -95,7 +95,7 @@ export default async function handler(req, res) {
   if (!number || !year || !nationalId) {
     return res.status(400).json({
       success: false,
-      message: "ادخلي رقم الفحص والسنة والرقم القومي أو جواز السفر",
+      message: "ادخل رقم الفحص والسنة والرقم القومي أو جواز السفر",
     });
   }
 
@@ -169,3 +169,4 @@ export default async function handler(req, res) {
     });
   }
 }
+
