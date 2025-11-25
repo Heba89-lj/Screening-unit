@@ -1,4 +1,6 @@
 
+
+
 // export default async function handler(req, res) {
 //   if (req.method !== "GET") {
 //     return res.status(405).json({ message: "Method Not Allowed" });
@@ -7,14 +9,16 @@
 //   const { number, year, nationalId } = req.query;
 
 //   if (!number || !year || !nationalId) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "ادخلي رقم الفحص والسنة والرقم القومي" });
+//     return res.status(400).json({
+//       success: false,
+//       message: "ادخل رقم الفحص والسنة والرقم القومي أو جواز السفر",
+//     });
 //   }
 
-//   // ✅ تحويل الأرقام العربية إلى إنجليزية
 //   const normalize = (str = "") =>
-//     str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim();
+//     str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+//        .replace(/\s+/g, "")
+//        .trim();
 
 //   const num = normalize(number);
 //   const yr = normalize(year);
@@ -29,9 +33,8 @@
 //     const rawText = await response.text();
 
 //     let data;
-//     try {
-//       data = JSON.parse(rawText);
-//     } catch {
+//     try { data = JSON.parse(rawText); }
+//     catch {
 //       return res.status(500).json({
 //         success: false,
 //         message: "رد غير صالح من Google Sheets",
@@ -47,14 +50,12 @@
 
 //     const rows = data.values?.slice(1) || [];
 
-//    // ✅ البحث في نفس الصف عن رقم الفحص والسنة والرقم القومي
-// const match = rows.find(
-//   (r) =>
-//     normalize(r[0]) === num && // رقم الفحص
-//     normalize(r[1]) === yr && // السنة
-//     normalize(r[2]).includes(nid) // الرقم القومي (حتى لو أكتر من رقم في الخلية)
-// );
-
+//     const match = rows.find(
+//       (r) =>
+//         normalize(r[0]) === num &&
+//         normalize(r[1]) === yr &&
+//         normalize(r[2]).includes(nid)
+//     );
 
 //     if (match) {
 //       return res.status(200).json({
@@ -62,7 +63,6 @@
 //         result: {
 //           number: match[0],
 //           year: match[1],
-//           // ❌ حذف الرقم القومي من النتيجة
 //           caseNumber: match[3],
 //           applicant: match[4],
 //           status: match[5],
@@ -70,13 +70,14 @@
 //           notes: match[7],
 //         },
 //       });
-//     } else {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "لم يتم العثور على بيانات مطابقة" });
 //     }
+
+//     return res.status(404).json({
+//       success: false,
+//       message: "لم يتم العثور على بيانات مطابقة",
+//     });
+
 //   } catch (error) {
-//     console.error("🔥 Error fetching Google Sheet:", error);
 //     return res.status(500).json({
 //       success: false,
 //       message: "حدث خطأ في السيرفر",
@@ -106,7 +107,9 @@ export default async function handler(req, res) {
 
   const num = normalize(number);
   const yr = normalize(year);
-  const nid = normalize(nationalId);
+  
+  // 🔥 أهم تعديل هنا — نجبر المدخل يكون Uppercase
+  const nid = normalize(nationalId).toUpperCase();
 
   const sheetId = process.env.SHEET_ID;
   const apiKey = process.env.GOOGLE_API_KEY;
@@ -134,12 +137,19 @@ export default async function handler(req, res) {
 
     const rows = data.values?.slice(1) || [];
 
-    const match = rows.find(
-      (r) =>
-        normalize(r[0]) === num &&
-        normalize(r[1]) === yr &&
-        normalize(r[2]).includes(nid)
-    );
+    const match = rows.find((r) => {
+      const sheetNumber = normalize(r[0]);
+      const sheetYear = normalize(r[1]);
+      
+      // 🔥 وهنا كمان نحول القيمة اللي في الشيت إلى Uppercase
+      const sheetIdValue = normalize(r[2] || "").toUpperCase();
+
+      return (
+        sheetNumber === num &&
+        sheetYear === yr &&
+        sheetIdValue.includes(nid) // مقارنة بدون كابيتال/سمول
+      );
+    });
 
     if (match) {
       return res.status(200).json({
