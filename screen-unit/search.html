@@ -97,7 +97,7 @@
   </select>
 
   <!-- الحقل المتغير -->
-  <input id="nationalId" placeholder="أدخلي الرقم القومي (14 رقم)" />
+  <input id="nationalId" placeholder="أدخل الرقم القومي (14 رقم)" />
   <button id="searchBtn">بحث</button>
 
   <div id="result" style="margin-top:20px; font-weight:bold;"></div>
@@ -105,7 +105,7 @@
 </div>
 
 
-<script>
+<!-- <script>
   function normalize(str = "") {
     return str
       .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
@@ -200,10 +200,126 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
     // إرسال البحث بعد التحقق
     search(number, year, input);
   });
+</script> -->
+<script>
+  function normalize(str = "") {
+    return str
+      .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+      .replace(/\s+/g, "")
+      .trim();
+  }
+
+  // تغيير Placeholder عند تغيير النوع
+  document.getElementById("idType").addEventListener("change", () => {
+    const id = document.getElementById("idType").value;
+    const input = document.getElementById("nationalId");
+
+    input.value = "";
+
+    if (id === "national") {
+      input.placeholder = "أدخل الرقم القومي (14 رقم)";
+      input.maxLength = 14;
+
+      // ⭐ يرجع الكتابة للوضع الطبيعي
+      input.style.textTransform = "none";
+
+    } else {
+      input.placeholder = "أدخل رقم جواز السفر";
+      input.maxLength = 10;
+
+      // ⭐ أي كتابة تتحول CAPITAL تلقائيًا
+      input.style.textTransform = "uppercase";
+    }
+  });
+
+  // 🟢 شغل change أول ما الصفحة تفتح
+  document.getElementById("idType").dispatchEvent(new Event("change"));
+
+  
+  async function search(number, year, identity) {
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "جارٍ البحث...";
+
+    try {
+      const res = await fetch(`/api/search?number=${number}&year=${year}&nationalId=${identity}`);
+      const data = await res.json();
+
+      if (data.success) {
+        const r = data.result;
+
+        resultDiv.innerHTML = `
+        <table>
+          <tr><th>رقم الفحص</th><td>${r.number || "-"}</td></tr>
+          <tr><th>السنة</th><td>${r.year || "-"}</td></tr>
+          <tr><th>رقم القضية</th><td>${r.caseNumber || "-"}</td></tr>
+          <tr><th>اسم مقدم الطلب</th><td>${r.applicant || "-"}</td></tr>
+          <tr><th>حالة الفحص</th><td>${r.status || "-"}</td></tr>
+          <tr><th>ماتم</th><td class="prewrap">${r.visa || "-"}</td></tr>
+          <tr><th>ملاحظات</th><td class="prewrap">${r.notes || "-"}</td></tr>
+        </table>`;
+      } else {
+        resultDiv.textContent = data.message;
+      }
+
+    } catch (err) {
+      resultDiv.textContent = "حدث خطأ في الاتصال بالسيرفر.";
+    }
+  }
+
+
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const number = normalize(document.getElementById("number").value);
+    const year = normalize(document.getElementById("year").value);
+
+    // ⭐ تعديل مهم — أخذ القيمة الأصلية قبل Normalize
+    let input = document.getElementById("nationalId").value;
+    const type = document.getElementById("idType").value;
+
+    // ⭐ تحويل جواز السفر إلى CAPITAL قبل أي شيء
+    if (type === "passport") {
+      input = input.toUpperCase();
+    }
+
+    // ⭐ بعد ما نحوله CAPITAL نعمل Normalize
+    input = normalize(input);
+
+
+    if (!number || !year || !input) {
+      return document.getElementById("result").textContent =
+        "من فضلك أدخل جميع البيانات.";
+    }
+
+
+    // التحقق للرقم القومي
+    if (type === "national") {
+      if (input.length !== 14 || !/^\d{14}$/.test(input)) {
+        return document.getElementById("result").textContent =
+          "الرقم القومي يجب أن يتكون من 14 رقمًا فقط.";
+      }
+    }
+
+    // التحقق لجواز السفر
+    if (type === "passport") {
+
+      if (input.length > 10) {
+        return document.getElementById("result").textContent =
+          "رقم جواز السفر يجب ألا يزيد عن 10 خانات.";
+      }
+
+      if (!/[A-Za-z]/.test(input) || !/[0-9]/.test(input)) {
+        return document.getElementById("result").textContent =
+          "رقم جواز السفر يجب أن يحتوي على حروف وأرقام معًا.";
+      }
+    }
+
+    // إرسال البحث
+    search(number, year, input);
+  });
 </script>
 
 </body>
 </html>
+
 
 
 
