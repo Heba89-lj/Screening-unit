@@ -32,11 +32,12 @@ export default async function handler(req, res) {
       );
 
       res.json({
-        answer: found ? found[1] : "من فضلك راجع السؤال أو تواصل مع الدعم"
+        answer: found ? found[1] : "من فضلك راجع السؤال "
       });
 
     } catch (err) {
       res.status(500).json({ answer: "حدث خطأ في السيرفر" });
     }
   });
+
 }
