@@ -451,8 +451,8 @@ animation: iconPulse 1.1s infinite;}
 }
 
 @keyframes scrollNotif {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(50%); }
 }
   </style>
 </head>
@@ -622,6 +622,51 @@ chatInput.addEventListener("keydown",e=>{
     /* ===================== Notifications Code ===================== */
 
 
+//  const notifBtn = document.getElementById("notifBtn");
+//     const notifBar = document.getElementById("notifBar");
+//     const notifTrack = document.getElementById("notifTrack");
+//     const notifCount = document.getElementById("notifCount");
+
+//    async function loadNotifications(){
+//   try{
+//     const res = await fetch("/api/notifications");
+//     const data = await res.json();
+
+//     const messages = (data.messages && data.messages.length)
+//       ? data.messages
+//       : ["لا توجد إشعارات حالياً"];
+
+//     notifTrack.innerHTML = `<span class="notif-text">${messages.join(" 🔹 ")}</span>`;
+
+//     // 🔔 عداد الجرس
+//     if(data.messages && data.messages.length>0){
+//       notifCount.innerText = data.messages.length;
+//       notifCount.classList.remove("hide");
+//     }else{
+//       notifCount.classList.add("hide");
+//     }
+
+//     // ✅ تثبيت سرعة الحركة
+//     setTimeout(() => {
+//       const notifText = notifTrack.querySelector(".notif-text");
+
+//       const textWidth = notifText.offsetWidth;
+//       const containerWidth = notifBar.offsetWidth;
+
+//       const totalDistance = textWidth + containerWidth;
+
+//       const duration = totalDistance / 70;
+
+//       notifTrack.style.animationDuration = duration + "s";
+//     }, 100);
+
+//   }catch{
+//     notifTrack.innerHTML = `<span class="notif-text">❌ فشل تحميل الإشعارات</span>`;
+//     notifCount.classList.add("hide");
+//   }
+// }
+// // ✅ لازم ده
+// loadNotifications();
  const notifBtn = document.getElementById("notifBtn");
     const notifBar = document.getElementById("notifBar");
     const notifTrack = document.getElementById("notifTrack");
@@ -636,7 +681,13 @@ chatInput.addEventListener("keydown",e=>{
       ? data.messages
       : ["لا توجد إشعارات حالياً"];
 
-    notifTrack.innerHTML = `<span class="notif-text">${messages.join(" 🔹 ")}</span>`;
+    // notifTrack.innerHTML = `<span class="notif-text">${messages.join(" 🔹 ")}</span>`;
+const text = messages.join(" 🔹 ");
+
+notifTrack.innerHTML = `
+  <span class="notif-text">${text}</span>
+  <span class="notif-text">" 🔹 ${text}</span>
+`;
 
     // 🔔 عداد الجرس
     if(data.messages && data.messages.length>0){
@@ -655,7 +706,7 @@ chatInput.addEventListener("keydown",e=>{
 
       const totalDistance = textWidth + containerWidth;
 
-      const duration = totalDistance / 70;
+      const duration = totalDistance / 50;
 
       notifTrack.style.animationDuration = duration + "s";
     }, 100);
@@ -667,12 +718,12 @@ chatInput.addEventListener("keydown",e=>{
 }
 // ✅ لازم ده
 loadNotifications();
-
   </script>
 </body>
 
 
 </html>
+
 
 
 
