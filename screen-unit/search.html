@@ -206,7 +206,7 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
 </body>
 </html> -->
 
- -->
+ 
 
 
 
@@ -442,10 +442,10 @@ async function search(number, year, identity) {
             popupHtml += `<tr><th>مطالبات وزارة العدل</th><td>${r.justiceRequests}</td></tr>`;
           }
           if (r.taxes && r.taxes.trim() !== "") {
-            popupHtml += `<tr><th>ضرائب</th><td>${r.taxes}</td></tr>`;
+            popupHtml += `<tr><th>الضرائب</th><td>${r.taxes}</td></tr>`;
           }
           if (r.courtExecution && r.courtExecution.trim() !== "") {
-            popupHtml += `<tr><th>تنفيذ أحكام</th><td>${r.courtExecution}</td></tr>`;
+            popupHtml += `<tr><th>تنفيذ الأحكام</th><td>${r.courtExecution}</td></tr>`;
           }
           popupHtml += `</table>`;
           document.getElementById("popupContent").innerHTML = popupHtml;
@@ -500,6 +500,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
