@@ -3,7 +3,7 @@
 
 
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -91,13 +91,13 @@
   <input id="year" placeholder="السنة">
 
     <!-- اختيار نوع الهوية -->
-  <select id="idType">
+  <!-- <select id="idType">
     <option value="national">رقم قومي</option>
     <option value="passport">جواز سفر</option>
-  </select>
+  </select> -->
 
   <!-- الحقل المتغير -->
-  <input id="nationalId" placeholder="أدخل الرقم القومي (14 رقم)" />
+  <!-- <input id="nationalId" placeholder="أدخل الرقم القومي (14 رقم)" />
   <button id="searchBtn">بحث</button>
 
   <div id="result" style="margin-top:20px; font-weight:bold;"></div>
@@ -204,12 +204,302 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
 
 
 </body>
+</html> -->
+
+ -->
+
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الاستفسار عن الفحص</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0 0 80px 0;
+      font-family: "Lateef", "Cairo", sans-serif;
+      background: linear-gradient(to bottom right, #0a1f44, #1e3c72, #2a5298);
+      color: #fff;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    #main-content { padding: 20px; }
+
+    select, input {
+      padding: 10px;
+      margin: 5px;
+      width: 90%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+
+    button {
+      background-color: #5b6a7a;
+      color: white;
+      border: none;
+      padding: 10px 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      width: 200px;
+    }
+
+    button:hover { background-color: #80b0e4; }
+
+    table {
+      width: 95%;
+      max-width: 800px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th {
+      background: #789ec7;
+      color: white;
+      padding: 10px;
+      width: 35%;
+      text-align: right;
+    }
+
+    td {
+      color: black;
+      padding: 10px;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .prewrap { white-space: pre-wrap; }
+
+    /* تصميم نافذة البوب اب */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      max-width: 90%;
+      width: 400px;
+    }
+
+    #popup table { width: 100%; margin: 0; }
+    #popup button { width: auto; margin-top: 10px; }
+    #overlay {
+      display: none;
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.5);
+      z-index: 900;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="main-content">
+
+  <h1>الاستعلام عن الفحص</h1>
+
+  <input id="number" placeholder="رقم الفحص" list="numbersList">
+  <datalist id="numbersList"></datalist>
+
+  <input id="year" placeholder="السنة" list="yearsList">
+  <datalist id="yearsList"></datalist>
+
+  <!-- اختيار نوع الهوية -->
+  <select id="idType">
+    <option value="national">رقم قومي</option>
+    <option value="passport">جواز سفر</option>
+  </select>
+
+  <!-- الحقل المتغير -->
+  <input id="nationalId" placeholder="أدخل الرقم القومي (14 رقم)" list="idList"/>
+  <datalist id="idList"></datalist>
+
+  <button id="searchBtn">بحث</button>
+
+  <div id="result" style="margin-top:20px; font-weight:bold;"></div>
+</div>
+
+<!-- البوب اب -->
+<div id="overlay"></div>
+<div id="popup">
+  <div id="popupContent"></div>
+  <button id="closePopup">إغلاق</button>
+</div>
+
+<script>
+// ===================== Normalize =====================
+function normalize(str = "") {
+  return str.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/\s+/g, "").trim();
+}
+
+// ===================== حفظ الاقتراحات =====================
+const storedNumbers = JSON.parse(localStorage.getItem("searchNumbers") || "[]");
+const storedYears = JSON.parse(localStorage.getItem("searchYears") || "[]");
+const storedIds = JSON.parse(localStorage.getItem("searchIds") || "[]");
+
+function updateDatalist(id, data) {
+  document.getElementById(id).innerHTML = data.map(v => `<option value="${v}"></option>`).join("");
+}
+updateDatalist("numbersList", storedNumbers);
+updateDatalist("yearsList", storedYears);
+updateDatalist("idList", storedIds);
+
+function saveValue(array, key, value) {
+  if (value && !array.includes(value)) {
+    array.unshift(value);
+    if (array.length > 10) array.pop();
+    localStorage.setItem(key, JSON.stringify(array));
+  }
+}
+
+// ===================== تغيير Placeholder =====================
+document.getElementById("idType").addEventListener("change", () => {
+  const id = document.getElementById("idType").value;
+  const input = document.getElementById("nationalId");
+  input.value = "";
+  if (id === "national") {
+    input.placeholder = "أدخل الرقم القومي (14 رقم)";
+    input.maxLength = 14;
+    input.style.textTransform = "none";
+  } else {
+    input.placeholder = "أدخل رقم جواز السفر";
+    input.maxLength = 10;
+    input.style.textTransform = "uppercase";
+  }
+});
+document.getElementById("idType").dispatchEvent(new Event("change"));
+
+// ===================== البحث =====================
+async function search(number, year, identity) {
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "جارٍ البحث...";
+
+  try {
+    const res = await fetch(`/api/search?number=${number}&year=${year}&nationalId=${identity}`);
+    const data = await res.json();
+
+    if (data.success) {
+      const r = data.result;
+
+      // حفظ القيم في localStorage
+      saveValue(storedNumbers, "searchNumbers", number);
+      saveValue(storedYears, "searchYears", year);
+      saveValue(storedIds, "searchIds", identity);
+
+      updateDatalist("numbersList", storedNumbers);
+      updateDatalist("yearsList", storedYears);
+      updateDatalist("idList", storedIds);
+
+      // جدول النتائج
+      let html = `
+        <table>
+          <tr><th>رقم الفحص</th><td>${r.number || "-"}</td></tr>
+          <tr><th>السنة</th><td>${r.year || "-"}</td></tr>
+          <tr><th>رقم القضية</th><td>${r.caseNumber || "-"}</td></tr>
+          <tr><th>اسم مقدم الطلب</th><td>${r.applicant || "-"}</td></tr>
+          <tr><th>حالة الفحص</th><td>${r.status || "-"}</td></tr>
+          <tr><th>ماتم</th><td class="prewrap">${r.visa || "-"}</td></tr>
+          <tr><th>ملاحظات</th><td class="prewrap">${r.notes || "-"}</td></tr>
+      `;
+
+      if (r.hasNotes && r.hasNotes.trim() !== "") {
+        html += `<tr><th>وجود ملاحظات</th><td><button id="notesBtn">ملاحظات</button></td></tr>`;
+      }
+
+      html += `</table>`;
+      resultDiv.innerHTML = html;
+
+      // إعداد البوب اب للزرار
+      const btn = document.getElementById("notesBtn");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          let popupHtml = `<table>`;
+          if (r.publicProsecution && r.publicProsecution.trim() !== "") {
+            popupHtml += `<tr><th>مطالبات نائب عام</th><td>${r.publicProsecution}</td></tr>`;
+          }
+          if (r.justiceRequests && r.justiceRequests.trim() !== "") {
+            popupHtml += `<tr><th>مطالبات وزارة العدل</th><td>${r.justiceRequests}</td></tr>`;
+          }
+          if (r.taxes && r.taxes.trim() !== "") {
+            popupHtml += `<tr><th>ضرائب</th><td>${r.taxes}</td></tr>`;
+          }
+          if (r.courtExecution && r.courtExecution.trim() !== "") {
+            popupHtml += `<tr><th>تنفيذ أحكام</th><td>${r.courtExecution}</td></tr>`;
+          }
+          popupHtml += `</table>`;
+          document.getElementById("popupContent").innerHTML = popupHtml;
+          document.getElementById("popup").style.display = "block";
+          document.getElementById("overlay").style.display = "block";
+        });
+      }
+
+    } else {
+      resultDiv.textContent = data.message;
+    }
+  } catch (err) {
+    resultDiv.textContent = "حدث خطأ في الاتصال بالسيرفر.";
+  }
+}
+
+// ===================== إغلاق البوب اب =====================
+document.getElementById("closePopup").addEventListener("click", () => {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
+});
+document.getElementById("overlay").addEventListener("click", () => {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
+});
+
+// ===================== حدث الزر =====================
+document.getElementById("searchBtn").addEventListener("click", () => {
+  const number = normalize(document.getElementById("number").value);
+  const year = normalize(document.getElementById("year").value);
+  let input = document.getElementById("nationalId").value;
+  const type = document.getElementById("idType").value;
+
+  if (type === "passport") input = input.toUpperCase();
+  input = normalize(input);
+
+  if (!number || !year || !input) {
+    return document.getElementById("result").textContent = "من فضلك أدخل جميع البيانات.";
+  }
+
+  if (type === "national" && (input.length !== 14 || !/^\d{14}$/.test(input))) {
+    return document.getElementById("result").textContent = "الرقم القومي يجب أن يتكون من 14 رقمًا فقط.";
+  }
+
+  if (type === "passport" && (input.length > 10 || !/[A-Za-z]/.test(input) || !/[0-9]/.test(input))) {
+    return document.getElementById("result").textContent = "رقم جواز السفر يجب أن يحتوي على حروف وأرقام معًا وألا يزيد عن 10 خانات.";
+  }
+
+  search(number, year, input);
+});
+</script>
+
+</body>
 </html>
-
-
-
-
-
 
 
 
