@@ -162,6 +162,11 @@ export default async function handler(req, res) {
           status: match[5],
           visa: match[6],
           notes: match[7],
+           hasNotes: match[9],              // عمود "وجود ملاحظات"
+      publicProsecution: match[10],    // مطالبات نائب عام
+      justiceRequests: match[11],      // مطالبات وزارة العدل
+      taxes: match[12],                // ضرائب
+      courtExecution: match[13],       // تنفيذ أحكام
         },
       });
     }
@@ -179,4 +184,5 @@ export default async function handler(req, res) {
     });
   }
 }
+
 
