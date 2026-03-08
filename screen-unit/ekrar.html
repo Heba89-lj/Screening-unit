@@ -593,7 +593,10 @@
   // ======= تنسيق حقل البطاقة الضريبية =======
   const taxInput = document.querySelector('input[placeholder="رقم البطاقة الضريبية"]');
   taxInput.addEventListener("input", (e) => {
-    let val = e.target.value.replace(/\D/g, ''); // إزالة أي شيء غير الأرقام
+    // let val = e.target.value.replace(/\D/g, ''); // إزالة أي شيء غير الأرقام
+    let val = e.target.value
+  .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)) // تحويل العربي لإنجليزي
+  .replace(/\D/g, '');
     val = val.slice(0, 9); // الحد الأقصى 9 أرقام
     let formatted = '';
     for (let i = 0; i < val.length; i++) {
@@ -689,5 +692,6 @@
 
 
 </html>
+
 
 
