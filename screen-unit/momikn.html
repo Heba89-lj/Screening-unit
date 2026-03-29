@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نموذج طلب مميكن</title>
+<style>
+body { font-family: "Cairo", sans-serif; background: #f4f4f4; margin:0; padding:0; }
+.container { max-width:900px; margin:20px auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2); }
+h2 { text-align:center; color:#004aad; }
+p { margin:10px 0; }
+input, select { width:100%; padding:8px; border-radius:5px; border:1px solid #ccc; }
+input[readonly] { background:#eee; }
+.hidden { display:none; }
+button { background:#004aad; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; margin-top:10px; }
+button:hover { background:#003580; }
+.note {
+  font-size:14px;
+  color:red;
+  margin-top:10px;   /* 👈 بدل -10px */
+  margin-bottom:10px;
+  text-align: right;
+}
+.flex-container { display:grid; grid-template-columns: 1fr 1fr; gap:20px; }
+.flex-container.single { grid-template-columns: 1fr; }
+
+input, select, textarea { text-align: right; }
+ .signature-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* محاذاة العمودين لأعلى */
+  margin-top: 20px;
+}
+
+.signature-container .left,
+.signature-container .right {
+  width: 48%; /* تقريباً نصف الشاشة لكل عمود */
+}
+
+.signature-container .right .signer-name {
+  margin-top: 10px; /* سطر تحت للتوقيع */
+  border-top: 1px solid #000; /* خط للتوقيع */
+  width: fit-content;
+  padding-top: 2px;
+}
+ 
+/* عناصر مخفية عند الطباعة */
+@media print {
+  #selfNote,
+  #agentNote,
+  #downloadPdf,
+  .note {
+    display: none !important;
+  }
+}
+.full-width {
+  grid-column: 1 / -1;
+}
+ .hide-in-pdf {
+  display: block; /* الوضع الطبيعي */
+}
+
+/* 👇 لما نفعل وضع PDF */
+.pdf-mode .hide-in-pdf {
+  display: none !important;
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="mimkenForm">
+  <h2>نموذج طلب مميكن لإسترداد مبلغ مالي</h2>
+
+ <!-- بيانات قبل صفة مقدم الطلب -->
+<div class="flex-container">
+
+  <div>
+    <p><span>رقم الفحص :</span></p> 
+    <input type="number" id="number" readonly> 
+  </div>
+
+  <div>
+    <p><span>رقم الطلب :</span></p>
+    <input type="text" id="requestNumber" readonly> 
+  </div>
+
+  <div>
+    <p><span>صفة مقدم الطلب :</span></p>
+    <select id="applicantType"> 
+      <option value="">اختر</option>
+      <option value="self">بنفسه</option> 
+      <option value="agent">وكيلا عن</option> 
+    </select>
+  </div>
+
+  <!-- 👇 اسم الوكيل -->
+  <div id="agentNameTop" class="hidden">
+    <p><span>اسم الوكيل :</span></p>
+    <input type="text" id="agentNameTopInput" >
+  </div>
+
+  <!-- 👇 رقم القضية هنا بقى -->
+  <div class="full-width">
+    <p><span>رقم القضية :</span></p>
+    <input type="text" class="caseNumber" readonly>
+  </div>
+
+</div>
+  <!-- ==== الحقول للشخص بنفسه ==== -->
+  <div id="selfFields" class="hidden">
+    <div class="flex-container">
+      <div>
+        <p><span>اسم مقدم الطلب:</span></p>
+        <input type="text" class="selfName" readonly>
+      </div>
+      <div>
+        <p><span>الرقم القومي :</span></p>
+        <input type="text" class="nationalId" readonly>
+      </div>
+
+      <div>
+        <p><span>رقم الهاتف :</span></p>
+        <input type="text" id="selfPhone"  maxlength="11">
+      </div>
+    </div>
+
+    <p id="selfNote" class="note hide-in-pdf ">
+      ملحوظة: يجب إرفاق صورة من بطاقة الرقم القومي و التأكد من أن الهاتف مسجل باسم صاحب الشأن
+    </p>
+  </div>
+
+  <!-- ==== الحقول للوكيل ==== -->
+  <div id="agentFields" class="hidden">
+    <div class="flex-container">
+      <!-- <div>
+        <p><span>اسم الوكيل :</span></p>
+        <input type="text" id="agentName">
+      </div> -->
+      
+      <div>
+        <p><span>رقم القيد :</span></p>
+<input type="text" id="registryNumber"  maxlength="7">      </div>
+
+      <div>
+        <p><span>نوع القيد :</span></p>
+        <select id="registryType">
+          <option value="">اختر</option>
+          <option>إبتدائي</option>
+          <option>استئناف</option>
+          <option>نقض</option>
+          <option>عام</option>
+        </select>
+      </div>
+      <div>
+        <p><span>الرقم القومي :</span></p>
+        <input type="text" id="agentID"  maxlength="14">
+      </div>
+
+      <div>
+        <p><span>جهة إصدار التوكيل :</span></p>
+        <input type="text" id="agency" >
+      </div>
+      <div>
+        <p><span>رقم التوكيل :</span></p>
+        <input type="text" id="powerNumber"  maxlength="5">
+      </div>
+
+      <div>
+        <p><span>حرف التوكيل :</span></p>
+<input type="text" id="powerLetter" oninput="this.value=this.value.replace(/[^\u0621-\u064A\s]/g,'')" maxlength="2">      </div>
+      <div>
+        <p><span>سنة التوكيل :</span></p>
+        <input type="text" id="powerYear" maxlength="4">
+      </div>
+
+<div>
+        <p><span>اسم الموكل :</span></p>
+        <input type="text" class="selfName" readonly>
+      </div>
+
+ <div >
+        <p><span>الرقم القومى للموكل</span></p>
+        <input type="text" class="nationalId" readonly>
+      </div>
+     
+      <div >
+        <p><span>رقم الهاتف للوكيل</span></p>
+        <input type="text" id="agentPhone"  maxlength="11">
+      </div>
+    </div>
+
+    <p id="agentNote" class="note hide-in-pdf">
+      ملحوظة: يجب إرفاق صورة التوكيل والكارنيه والتأكد من أن الهاتف مسجل باسم المحامي
+    </p>
+  </div>
+
+  <!-- التاريخ والتوقيع وزر التحميل دائماً -->
+  <div class="signature-container">
+  <div class="left">
+    <span>:تحريرا في <span id="currentDate"></span></span>
+  </div>
+  <div class="right">
+    <span>  المقر بما فيه</span>
+    <div class="signer-name">✍️</div>
+  </div>
+</div>
+
+<!-- 👇 زرار التحميل -->
+<!-- <button id="downloadPdf">تحميل النموذج كـ PDF</button> -->
+
+
+<button id="downloadPdf" class="hide-in-pdf">
+  تحميل النموذج كـ PDF
+</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const selfName = params.get("selfName") || "";
+const caseNumber = params.get("caseNumber") || "";
+const number = params.get("number") || "";
+const nationalId = params.get("nationalId") || "";
+
+document.getElementById("number").value = number;
+document.querySelectorAll(".caseNumber").forEach(el => el.value = caseNumber);
+document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
+document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
+
+const agentNameTop = document.getElementById("agentNameTop");
+const applicantType = document.getElementById("applicantType");
+applicantType.addEventListener("change", function() {
+  const val = this.value;
+
+  document.getElementById("selfFields").classList.add("hidden");
+  document.getElementById("agentFields").classList.add("hidden");
+  document.getElementById("selfNote").classList.add("hidden");
+  document.getElementById("agentNote").classList.add("hidden");
+  agentNameTop.classList.add("hidden");
+
+  if(val === "self"){
+    document.getElementById("selfFields").classList.remove("hidden");
+    document.getElementById("selfNote").classList.remove("hidden");
+  }
+
+  if(val === "agent"){
+    document.getElementById("agentFields").classList.remove("hidden");
+    document.getElementById("agentNote").classList.remove("hidden");
+    agentNameTop.classList.remove("hidden");
+  }
+});
+
+// التاريخ الحالي
+document.getElementById("currentDate").textContent = new Date().toLocaleDateString('ar-EG');
+
+// تحميل PDF
+ document.getElementById("downloadPdf").addEventListener("click", function(){
+  const val = applicantType.value; 
+  if(val === "self"){ 
+   const phone = document.getElementById("selfPhone").value.trim();
+   if(phone.length !== 11 || isNaN(phone)) { alert("رقم الهاتف يجب أن يحتوي على 11 رقم"); return; }
+  } else if(val === "agent"){
+   
+const agentName = document.getElementById("agentNameTopInput").value.trim();
+   const registryNumber = document.getElementById("registryNumber").value.trim(); 
+   const registryType = document.getElementById("registryType").value;
+   const agentID = document.getElementById("agentID").value.trim(); 
+   const agency = document.getElementById("agency").value.trim();
+   const powerNumber = document.getElementById("powerNumber").value.trim();
+ const powerLetter = document.getElementById("powerLetter").value.trim();
+   const powerYear = document.getElementById("powerYear").value.trim();
+   const agentPhone = document.getElementById("agentPhone").value.trim(); 
+   if(agentName.split(/\s+/).length < 4){ alert("اسم الوكيل يجب أن يكون رباعى"); return; } 
+   if(registryNumber.length === 0 || isNaN(registryNumber)) { alert("رقم القيد يجب أن يكون رقما"); return; }
+   if(registryType === "") { alert("اختر نوع القيد"); return; }
+   if(agentID.length !== 14 || isNaN(agentID)) { alert("الرقم القومي للوكيل يجب أن يحتوي على 14 رقم"); return; }
+   if(!agency) { alert("ادخل جهة إصدار التوكيل"); return; }
+   if(!powerNumber || isNaN(powerNumber)) { alert("رقم التوكيل يجب أن يكون رقم"); return; } 
+   if(!powerLetter.match(/^[\u0621-\u064A]+$/)) { alert("حرف التوكيل يجب أن يكون حروف عربية فقط"); return; }
+   if(!powerYear || isNaN(powerYear)) { alert("سنة التوكيل يجب أن تكون رقم"); return; }
+   if(agentPhone.length !== 11 || isNaN(agentPhone)) { alert("رقم الهاتف للوكيل يجب أن يحتوي على 11 رقم"); return; }
+  } else { alert("اختر صفة مقدم الطلب"); return; } 
+    document.body.classList.add("pdf-mode");
+
+//   const element = document.getElementById("mimkenForm");
+// html2pdf().set({ margin: [10,10,10,10], filename: 'نموذج_مميكن.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(element).save(); });
+const element = document.getElementById("mimkenForm");
+
+const options = {
+  margin: [0, 0, 0, 0],
+  filename: 'نموذج_مميكن.pdf',
+  image: { type: 'jpeg', quality: 1 },
+  html2canvas: { 
+    scale: 3, 
+    useCORS: true,
+    scrollY: 0
+  },
+  jsPDF: { 
+    unit: 'px', 
+    format: [element.scrollWidth, element.scrollHeight], 
+    orientation: 'portrait' 
+  }
+};
+
+// html2pdf().set(options).from(element).save();});
+ html2pdf().set(options).from(element).save().then(() => {
+    document.body.classList.remove("pdf-mode");
+  });
+
+});
+function onlyNumbers(input) {
+  if (!input) return;
+  input.addEventListener("input", function () {
+    // تحويل أي أرقام عربية لأرقام إنجليزية
+    this.value = this.value.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+                           .replace(/[^0-9]/g, ""); // إزالة أي حاجه مش رقم
+  });
+}
+
+  function onlyArabic(input){
+    if(!input) return;
+    input.addEventListener("input", function(){
+      this.value = this.value.replace(/[^\u0621-\u064A\s]/g, "");
+    });
+  }
+
+  // ربط الحقول
+// مثال على الحقل
+onlyNumbers(document.getElementById("selfPhone"));
+onlyNumbers(document.getElementById("agentPhone"));
+onlyNumbers(document.getElementById("registryNumber"));
+onlyNumbers(document.getElementById("agentID"));
+onlyNumbers(document.getElementById("powerNumber"));
+onlyNumbers(document.getElementById("powerYear"));
+
+  onlyArabic(document.getElementById("powerLetter"));
+
+
+</script>
+</body>
+</html>
