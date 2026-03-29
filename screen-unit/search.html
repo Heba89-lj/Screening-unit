@@ -573,25 +573,60 @@ document.getElementById("idType").dispatchEvent(new Event("change"));
               <tr><th>ملاحظات</th><td class="prewrap">${escapeHtml(r.notes || "-").replace(/\r?\n/g,"<br>")}</td></tr>
             </table>`;
 
-          const notesBtn = document.getElementById("notesBtn");
-          if(r.hasNotes && r.hasNotes.toString().toLowerCase().includes("ملاحظات")){
-            notesBtn.style.display = "inline-block";
+          // const notesBtn = document.getElementById("notesBtn");
+          // if(r.hasNotes && r.hasNotes.toString().toLowerCase().includes("ملاحظات")){
+          //   notesBtn.style.display = "inline-block";
 
-            notesBtn.onclick = () => {
-              const modalTable = document.getElementById("modalTable");
-              modalTable.innerHTML = "";
+          //   notesBtn.onclick = () => {
+          //     const modalTable = document.getElementById("modalTable");
+          //     modalTable.innerHTML = "";
 
-              if(r.publicProsecution) modalTable.innerHTML += `<tr><th>مطالبات نائب عام</th><td>${escapeHtml(r.publicProsecution)}</td></tr>`;
-              if(r.justiceRequests) modalTable.innerHTML += `<tr><th>مطالبات وزارة العدل</th><td>${escapeHtml(r.justiceRequests)}</td></tr>`;
-              if(r.taxes) modalTable.innerHTML += `<tr><th>الضرائب</th><td>${escapeHtml(r.taxes)}</td></tr>`;
-              if(r.courtExecution) modalTable.innerHTML += `<tr><th>تنفيذ الأحكام</th><td>${escapeHtml(r.courtExecution)}</td></tr>`;
+          //     if(r.publicProsecution) modalTable.innerHTML += `<tr><th>مطالبات نائب عام</th><td>${escapeHtml(r.publicProsecution)}</td></tr>`;
+          //     if(r.justiceRequests) modalTable.innerHTML += `<tr><th>مطالبات وزارة العدل</th><td>${escapeHtml(r.justiceRequests)}</td></tr>`;
+          //     if(r.taxes) modalTable.innerHTML += `<tr><th>الضرائب</th><td>${escapeHtml(r.taxes)}</td></tr>`;
+          //     if(r.courtExecution) modalTable.innerHTML += `<tr><th>تنفيذ الأحكام</th><td>${escapeHtml(r.courtExecution)}</td></tr>`;
 
-              document.getElementById("notesModal").style.display = "flex";
-            }
-          } else {
-            notesBtn.style.display = "none";
+          //     document.getElementById("notesModal").style.display = "flex";
+          //   }
+          // } else {
+          //   notesBtn.style.display = "none";
+          // }
+
+        const notesBtn = document.getElementById("notesBtn");
+
+        // إذا كان العمود hasNotes يحتوي على "مميكن"
+        if(r.hasNotes && r.hasNotes.toString().toLowerCase().includes("مميكن")){
+          notesBtn.textContent = "نموذج مميكن";
+          notesBtn.style.display = "inline-block";
+
+         notesBtn.onclick = () => {
+    // تمرير البيانات من نفس الصف (r) لصفحة momikn.html
+const url = `momikn.html?selfName=${encodeURIComponent(r.applicant)}
+&caseNumber=${encodeURIComponent(r.caseNumber)}
+&number=${encodeURIComponent(r.number)}
+&nationalId=${encodeURIComponent(r.nationalId || "")}`;
+
+window.location.href = url;}
+
+        } else if(r.hasNotes && r.hasNotes.toString().toLowerCase().includes("ملاحظات")){
+          notesBtn.textContent = "المديونية";
+          notesBtn.style.display = "inline-block";
+
+          notesBtn.onclick = () => {
+            const modalTable = document.getElementById("modalTable");
+            modalTable.innerHTML = "";
+
+            if(r.publicProsecution) modalTable.innerHTML += `<tr><th>مطالبات نائب عام</th><td>${escapeHtml(r.publicProsecution)}</td></tr>`;
+            if(r.justiceRequests) modalTable.innerHTML += `<tr><th>مطالبات وزارة العدل</th><td>${escapeHtml(r.justiceRequests)}</td></tr>`;
+            if(r.taxes) modalTable.innerHTML += `<tr><th>الضرائب</th><td>${escapeHtml(r.taxes)}</td></tr>`;
+            if(r.courtExecution) modalTable.innerHTML += `<tr><th>تنفيذ الأحكام</th><td>${escapeHtml(r.courtExecution)}</td></tr>`;
+
+            document.getElementById("notesModal").style.display = "flex";
           }
 
+        } else {
+          notesBtn.style.display = "none";
+        }
         } else {
           resultDiv.textContent = data.message || "لم يتم العثور على بيانات لهذا الفحص.";
           document.getElementById("notesBtn").style.display = "none";
