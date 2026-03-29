@@ -75,17 +75,17 @@ input, select, textarea { text-align: right; }
 <div class="flex-container">
 
   <div>
-    <p><span>رقم الفحص :</span></p> 
+    <p><span>رقم الفحص </span></p> 
     <input type="number" id="number" readonly> 
   </div>
 
   <div>
-    <p><span>رقم الطلب :</span></p>
+    <p><span>رقم الطلب </span></p>
     <input type="text" id="requestNumber" readonly> 
   </div>
 
   <div>
-    <p><span>صفة مقدم الطلب :</span></p>
+    <p><span>صفة مقدم الطلب </span></p>
     <select id="applicantType"> 
       <option value="">اختر</option>
       <option value="self">بنفسه</option> 
@@ -95,13 +95,13 @@ input, select, textarea { text-align: right; }
 
   <!-- 👇 اسم الوكيل -->
   <div id="agentNameTop" class="hidden">
-    <p><span>اسم الوكيل :</span></p>
+    <p><span>اسم الوكيل </span></p>
     <input type="text" id="agentNameTopInput" >
   </div>
 
   <!-- 👇 رقم القضية هنا بقى -->
   <div class="full-width">
-    <p><span>رقم القضية :</span></p>
+    <p><span>رقم القضية </span></p>
     <input type="text" class="caseNumber" readonly>
   </div>
 
@@ -110,16 +110,16 @@ input, select, textarea { text-align: right; }
   <div id="selfFields" class="hidden">
     <div class="flex-container">
       <div>
-        <p><span>اسم مقدم الطلب:</span></p>
+        <p><span>اسم مقدم الطلب </span></p>
         <input type="text" class="selfName" readonly>
       </div>
       <div>
-        <p><span>الرقم القومي :</span></p>
+        <p><span>الرقم القومي </span></p>
         <input type="text" class="nationalId" readonly>
       </div>
 
       <div>
-        <p><span>رقم الهاتف :</span></p>
+        <p><span>رقم الهاتف </span></p>
         <input type="text" id="selfPhone"  maxlength="11">
       </div>
     </div>
@@ -132,17 +132,14 @@ input, select, textarea { text-align: right; }
   <!-- ==== الحقول للوكيل ==== -->
   <div id="agentFields" class="hidden">
     <div class="flex-container">
-      <!-- <div>
-        <p><span>اسم الوكيل :</span></p>
-        <input type="text" id="agentName">
-      </div> -->
+      
       
       <div>
-        <p><span>رقم القيد :</span></p>
+        <p><span>رقم القيد </span></p>
 <input type="text" id="registryNumber"  maxlength="7">      </div>
 
       <div>
-        <p><span>نوع القيد :</span></p>
+        <p><span>نوع القيد </span></p>
         <select id="registryType">
           <option value="">اختر</option>
           <option>إبتدائي</option>
@@ -152,29 +149,29 @@ input, select, textarea { text-align: right; }
         </select>
       </div>
       <div>
-        <p><span>الرقم القومي :</span></p>
+        <p><span>الرقم القومي </span></p>
         <input type="text" id="agentID"  maxlength="14">
       </div>
 
       <div>
-        <p><span>جهة إصدار التوكيل :</span></p>
+        <p><span>جهة إصدار التوكيل </span></p>
         <input type="text" id="agency" >
       </div>
       <div>
-        <p><span>رقم التوكيل :</span></p>
+        <p><span>رقم التوكيل </span></p>
         <input type="text" id="powerNumber"  maxlength="5">
       </div>
 
       <div>
-        <p><span>حرف التوكيل :</span></p>
+        <p><span>حرف التوكيل </span></p>
 <input type="text" id="powerLetter" oninput="this.value=this.value.replace(/[^\u0621-\u064A\s]/g,'')" maxlength="2">      </div>
       <div>
-        <p><span>سنة التوكيل :</span></p>
+        <p><span>سنة التوكيل </span></p>
         <input type="text" id="powerYear" maxlength="4">
       </div>
 
 <div>
-        <p><span>اسم الموكل :</span></p>
+        <p><span>اسم الموكل </span></p>
         <input type="text" class="selfName" readonly>
       </div>
 
@@ -197,10 +194,10 @@ input, select, textarea { text-align: right; }
   <!-- التاريخ والتوقيع وزر التحميل دائماً -->
   <div class="signature-container">
   <div class="left">
-    <span>:تحريرا في <span id="currentDate"></span></span>
+    <span>تحريرا في <span id="currentDate"></span></span>
   </div>
   <div class="right">
-    <span>  المقر بما فيه</span>
+    <span>  اسم مقدم الطلب </span>
     <div class="signer-name">✍️</div>
   </div>
 </div>
