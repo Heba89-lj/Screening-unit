@@ -76,7 +76,9 @@ input, select, textarea { text-align: right; }
 
   <div>
     <p><span>رقم الفحص </span></p> 
-    <input type="number" id="number" readonly> 
+    <!-- <input type="number" id="number" readonly>  -->
+        <input type="number" id="mix" readonly> 
+
   </div>
 
   <div>
@@ -214,10 +216,14 @@ input, select, textarea { text-align: right; }
 const params = new URLSearchParams(window.location.search);
 const selfName = params.get("selfName") || "";
 const caseNumber = params.get("caseNumber") || "";
-const number = params.get("number") || "";
+// const number = params.get("number") || "";
+  const mix = params.get("mix") || "";
+
 const nationalId = params.get("nationalId") || "";
 
-document.getElementById("number").value = number;
+// document.getElementById("number").value = number;
+  document.getElementById("mix").value = mix;
+
 document.querySelectorAll(".caseNumber").forEach(el => el.value = caseNumber);
 document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
 document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
