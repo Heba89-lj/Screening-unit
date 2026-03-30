@@ -74,17 +74,17 @@ input, select, textarea { text-align: right; }
  <!-- بيانات قبل صفة مقدم الطلب -->
 <div class="flex-container">
 
-  <div>
+  <!-- <div>
     <p><span>رقم الفحص </span></p> 
     <input type="number" id="number" readonly> 
 
-  </div>
+  </div> -->
 
-<!-- <div>
+<div>
     <p><span>  رقم الفحص والسنة</span></p> 
     <input type="number" id="mix" readonly> 
 
-  </div> -->
+  </div>
   
   <div>
     <p><span>رقم الطلب </span></p>
@@ -221,12 +221,12 @@ input, select, textarea { text-align: right; }
 const params = new URLSearchParams(window.location.search);
 const selfName = params.get("selfName") || "";
 const caseNumber = params.get("caseNumber") || "";
-const number = params.get("number") || "";
-// const mix = params.get("mix") || "";
+// const number = params.get("number") || "";
+const mix = params.get("mix") || "";
 const nationalId = params.get("nationalId") || "";
 
-document.getElementById("number").value = number;
-// document.getElementById("mix").value = mix;
+// document.getElementById("number").value = number;
+document.getElementById("mix").value = mix;
 document.querySelectorAll(".caseNumber").forEach(el => el.value = caseNumber);
 document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
 document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
