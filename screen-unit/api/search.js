@@ -84,6 +84,7 @@ export default async function handler(req, res) {
       justiceRequests: match[11],      // مطالبات وزارة العدل
       taxes: match[12],                // ضرائب
       courtExecution: match[13],       // تنفيذ أحكام
+        mix: match[14],
         },
       });
     }
