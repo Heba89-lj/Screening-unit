@@ -314,7 +314,11 @@ const agentName = document.getElementById("agentNameTopInput").value.trim();
    if(!agency) { alert("ادخل جهة إصدار التوكيل"); return; }
    if(!powerNumber || isNaN(powerNumber)) { alert("رقم التوكيل يجب أن يكون رقم"); return; } 
    if(!powerLetter.match(/^[\u0621-\u064A]+$/)) { alert("حرف التوكيل يجب أن يكون حروف عربية فقط"); return; }
-   if(!powerYear || isNaN(powerYear)) { alert("سنة التوكيل يجب أن تكون رقم"); return; }
+   // if(!powerYear || isNaN(powerYear)) { alert("سنة التوكيل يجب أن تكون رقم"); return; }
+    if(!/^\d{4}$/.test(powerYear)) {
+  alert("سنة التوكيل يجب أن تكون 4 أرقام بالظبط");
+  return;
+}
    if(agentPhone.length !== 11 || isNaN(agentPhone)) { alert("رقم الهاتف للوكيل يجب أن يحتوي على 11 رقم"); return; }
   } else { alert("اختر صفة مقدم الطلب"); return; } 
     document.body.classList.add("pdf-mode");
