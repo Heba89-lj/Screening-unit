@@ -64,6 +64,19 @@ input, select, textarea { text-align: right; }
 .pdf-mode .hide-in-pdf {
   display: none !important;
 }
+   textarea {
+  width: 100%;
+  min-height: 35px; /* تقريبًا نفس ارتفاع input */
+  max-height: 150px; /* لتجنب كبر الحقل جدًا */
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  resize: vertical; /* يسمح بسحب الارتفاع بس بشكل عمودي */
+  font-family: "Cairo", sans-serif;
+  text-align: right;
+  overflow: auto;
+  background:#eee;
+}
 </style>
 </head>
 <body>
@@ -116,15 +129,25 @@ input, select, textarea { text-align: right; }
   <!-- ==== الحقول للشخص بنفسه ==== -->
   <div id="selfFields" class="hidden">
     <div class="flex-container">
-      <div>
+      <!-- <div>
         <p><span>اسم مقدم الطلب </span></p>
         <input type="text" class="selfName" readonly>
+      </div> -->
+<div>
+<p><span>ااسم مقدم الطلب</span></p>
+<textarea class="selfName" readonly rows="4"></textarea>
       </div>
-      <div>
+      
+      <!-- <div>
         <p><span>الرقم القومي </span></p>
         <input type="text" class="nationalId" readonly>
-      </div>
+      </div> -->
 
+    <div>
+<p><span>االرقم القومى</span></p>
+<textarea class="nationalId" readonly rows="4"></textarea>
+      </div>
+      
       <div>
         <p><span>رقم الهاتف </span></p>
         <input type="text" id="selfPhone"  maxlength="11">
@@ -177,16 +200,26 @@ input, select, textarea { text-align: right; }
         <input type="text" id="powerYear" maxlength="4">
       </div>
 
-<div>
+<!-- <div>
         <p><span>اسم الموكل </span></p>
         <input type="text" class="selfName" readonly>
-      </div>
+      </div> -->
 
- <div >
+<div>
+<p><span>اسم الموكل</span></p>
+<textarea class="selfName" readonly rows="4"></textarea>
+      </div>
+      
+ <!-- <div >
         <p><span>الرقم القومى للموكل</span></p>
         <input type="text" class="nationalId" readonly>
+      </div> -->
+
+<div>
+<p><span>الرقم القومى للموكل</span></p>
+<textarea class="nationalId" readonly rows="4"></textarea>
       </div>
-     
+      
       <div >
         <p><span>رقم الهاتف للوكيل</span></p>
         <input type="text" id="agentPhone"  maxlength="11">
