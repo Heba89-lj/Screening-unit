@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>اختيار النيابة</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* آخر الشاشة */
+  background-image: url('./images/background2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#main {
+  display: flex;
+  justify-content: space-around; /* المسافات متساوية */
+  width: 150%;                     /* عرض الحاوية */
+  padding-bottom: 300px;
+}
+
+
+ .logo-link {
+  display: block;        /* يخلي اللينك ياخد مساحة */
+  width: 45%;
+  text-decoration: none;
+/* background:#e67e00; */
+ /*  background-color: #f28c1a;*/
+   border-radius: 50%;
+     animation: pulse 2s infinite; /* 👈 النبض */
+
+ }
+  @keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px 5px rgba(255,255,255,0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255,255,255,0);
+  }
+}
+.line2 {
+  font-size:25px;
+}
+  
+  .text-box {
+   /* background: rgba(0,0,0,0.6); */
+    background:#b6957a ;
+    font-size :30px;
+    font-weight: 600; /* متوسط */
+
+    color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: none; /* يمنع أي حركة */
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="main">
+
+  
+<a href="home.html" class="logo-link">
+  <div class="text-box">
+    <div class="line1">طلبات الفحص المتنوع</div>
+    <div class="line2">نيابة الشئون الاقتصادية وغسل الأموال</div>
+    <div class="line3">بالإسكندرية</div>
+  </div>
+</a>
+  
+ <a href="https://script.google.com/macros/s/AKfycbykortx0qUeNDfxXfgGMaQfC2mMNUEVsef9AXwY7yWB6xSEty7H_xtV6o9UCSI_HRus/exec" class="logo-link">
+  <div class="text-box">
+    <div class="line1">طلبات الرد</div>
+    <div class="line2">نيابة الشئون الاقتصادية وغسل الأموال</div>
+    <div class="line3">بمكتب النائب العام</div>
+  </div>
+</a>
+</div>
+
+</body>
+</html>
