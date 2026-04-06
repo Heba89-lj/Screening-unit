@@ -26,7 +26,7 @@ body {
   display: flex;
   justify-content: space-around; /* المسافات متساوية */
   width: 150%;                     /* عرض الحاوية */
-  padding-bottom: 300px;
+  padding-bottom: 200px;
 }
 
 
@@ -73,11 +73,28 @@ body {
   transition: none; /* يمنع أي حركة */
 
 }
+  #visitorContainer {
+  position: fixed;
+  top: 1266px;       /* من تحت */
+  left: 50%;          /* في نص العرض */
+  transform: translateX(-50%); /* يظبطه في النص بالظبط */
+  
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size:40px;
+  font-weight: bold;
+  font-family: "Cairo", sans-serif;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 </style>
 </head>
 
 <body>
-
+<div id="visitorContainer">
+  <span id="visitorCount"></span>
+</div>
 <div id="main">
 
   
@@ -97,6 +114,20 @@ body {
   </div>
 </a>
 </div>
+<script>
+async function updateCounter() {
+  try {
+    const res = await fetch("/api/incrementCounter");
+    const data = await res.json();
+    document.getElementById("visitorCount").innerText =
+      "عدد متلقى الخدمة " + data.COUNT;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
+// نحدث العداد لما الصفحة تفتح
+updateCounter();
+</script>
 </body>
 </html>
