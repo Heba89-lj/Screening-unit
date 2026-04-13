@@ -77,6 +77,13 @@ input, select, textarea { text-align: right; }
   overflow: auto;
   background:#eee;
 }
+  @media print {
+  textarea {
+    white-space: pre-wrap !important;
+    word-break: break-word;
+    overflow: visible;
+  }
+}
 </style>
 </head>
 <body>
@@ -261,8 +268,19 @@ const nationalId = params.get("nationalId") || "";
 // document.getElementById("number").value = number;
 document.getElementById("mix").value = mix;
 document.querySelectorAll(".caseNumber").forEach(el => el.value = caseNumber);
-document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
-document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
+// document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
+// document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
+  function formatText(text) {
+  return text.replace(/(.{30})/g, "$1\n");
+}
+
+document.querySelectorAll(".selfName").forEach(el => {
+  el.value = formatText(selfName);
+});
+
+document.querySelectorAll(".nationalId").forEach(el => {
+  el.value = formatText(nationalId);
+});
 
 const agentNameTop = document.getElementById("agentNameTop");
 const applicantType = document.getElementById("applicantType");
