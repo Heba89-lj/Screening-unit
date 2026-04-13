@@ -360,20 +360,23 @@ const options = {
 };
 
 // html2pdf().set(options).from(element).save();});
- html2pdf().set(options).from(element).save().then(() => {
-   // الاسم
+document.body.classList.add("pdf-mode");
+
+// نحط البيانات في الـ div
 document.querySelectorAll(".selfName").forEach((el, i) => {
   document.querySelectorAll(".selfNameView")[i].innerText = el.value;
 });
 
-// الرقم القومي
 document.querySelectorAll(".nationalId").forEach((el, i) => {
   document.querySelectorAll(".nationalIdView")[i].innerText = el.value;
 });
+
+// ⛔ مهم جدًا ندي وقت للـ DOM يتحدث
+setTimeout(() => {
+  html2pdf().set(options).from(element).save().then(() => {
     document.body.classList.remove("pdf-mode");
   });
-
-});
+}, 300);
 function onlyNumbers(input) {
   if (!input) return;
   input.addEventListener("input", function () {
