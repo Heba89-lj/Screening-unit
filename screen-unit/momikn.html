@@ -77,7 +77,7 @@ input, select, textarea { text-align: right; }
   overflow: auto;
   background:#eee;
 }
-.show-in-pdf {
+/* .show-in-pdf {
   display: none;
 }
 
@@ -88,7 +88,7 @@ input, select, textarea { text-align: right; }
   background: #eee;
   padding: 8px;
   border-radius: 5px;
-}
+} */
 </style>
 </head>
 <body>
@@ -147,9 +147,8 @@ input, select, textarea { text-align: right; }
       </div> -->
 <div>
 <p><span>ااسم مقدم الطلب</span></p>
-<!-- <textarea class="selfName" readonly rows="4"></textarea> -->
-  <textarea class="selfName hide-in-pdf" readonly rows="4"></textarea>
-<div class="selfNameView show-in-pdf"></div>
+<textarea class="selfName" readonly rows="4"></textarea>
+
       </div>
       
       <!-- <div>
@@ -231,10 +230,8 @@ input, select, textarea { text-align: right; }
 
 <div>
 <p><span>الرقم القومى للموكل</span></p>
-<!-- <textarea class="nationalId" readonly rows="4"></textarea> -->
-  <textarea class="nationalId hide-in-pdf" readonly rows="4"></textarea>
-<div class="nationalIdView show-in-pdf"></div>
-      </div>
+<textarea class="nationalId" readonly rows="4"></textarea>
+ 
       
       <div >
         <p><span>رقم الهاتف للوكيل</span></p>
@@ -359,24 +356,8 @@ const options = {
   }
 };
 
-// html2pdf().set(options).from(element).save();});
-document.body.classList.add("pdf-mode");
+html2pdf().set(options).from(element).save();});
 
-// نحط البيانات في الـ div
-document.querySelectorAll(".selfName").forEach((el, i) => {
-  document.querySelectorAll(".selfNameView")[i].innerText = el.value;
-});
-
-document.querySelectorAll(".nationalId").forEach((el, i) => {
-  document.querySelectorAll(".nationalIdView")[i].innerText = el.value;
-});
-
-// ⛔ مهم جدًا ندي وقت للـ DOM يتحدث
-setTimeout(() => {
-  html2pdf().set(options).from(element).save().then(() => {
-    document.body.classList.remove("pdf-mode");
-  });
-}, 300);
 function onlyNumbers(input) {
   if (!input) return;
   input.addEventListener("input", function () {
