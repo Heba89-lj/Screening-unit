@@ -268,32 +268,32 @@ const nationalId = params.get("nationalId") || "";
 // document.getElementById("number").value = number;
 document.getElementById("mix").value = mix;
 document.querySelectorAll(".caseNumber").forEach(el => el.value = caseNumber);
-// document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
-// document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
-function formatText(text) {
-  const words = text.split(" ");
-  let lines = [];
-  let currentLine = "";
+document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
+document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
+// function formatText(text) {
+//   const words = text.split(" ");
+//   let lines = [];
+//   let currentLine = "";
 
-  words.forEach(word => {
-    if ((currentLine + word).length > 4) {
-      lines.push(currentLine);
-      currentLine = word + " ";
-    } else {
-      currentLine += word + " ";
-    }
-  });
+//   words.forEach(word => {
+//     if ((currentLine + word).length > 4) {
+//       lines.push(currentLine);
+//       currentLine = word + " ";
+//     } else {
+//       currentLine += word + " ";
+//     }
+//   });
 
-  lines.push(currentLine);
-  return lines.join("\n");
-}
-document.querySelectorAll(".selfName").forEach(el => {
-  el.value = formatText(selfName);
-});
+//   lines.push(currentLine);
+//   return lines.join("\n");
+// }
+// document.querySelectorAll(".selfName").forEach(el => {
+//   el.value = formatText(selfName);
+// });
 
-document.querySelectorAll(".nationalId").forEach(el => {
-  el.value = formatText(nationalId);
-});
+// document.querySelectorAll(".nationalId").forEach(el => {
+//   el.value = formatText(nationalId);
+// });
 const agentNameTop = document.getElementById("agentNameTop");
 const applicantType = document.getElementById("applicantType");
 applicantType.addEventListener("change", function() {
