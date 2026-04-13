@@ -287,7 +287,13 @@ function formatText(text) {
   lines.push(currentLine);
   return lines.join("\n");
 }
+document.querySelectorAll(".selfName").forEach(el => {
+  el.value = formatText(selfName);
+});
 
+document.querySelectorAll(".nationalId").forEach(el => {
+  el.value = formatText(nationalId);
+});
 const agentNameTop = document.getElementById("agentNameTop");
 const applicantType = document.getElementById("applicantType");
 applicantType.addEventListener("change", function() {
