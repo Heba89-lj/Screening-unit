@@ -356,8 +356,11 @@ const options = {
   }
 };
 
-html2pdf().set(options).from(element).save();});
-
+// html2pdf().set(options).from(element).save();});
+   html2pdf().set(options).from(element).save().then(() => {
+     document.body.classList.remove("pdf-mode");
+   });
+ });
 function onlyNumbers(input) {
   if (!input) return;
   input.addEventListener("input", function () {
