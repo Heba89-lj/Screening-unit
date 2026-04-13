@@ -77,12 +77,17 @@ input, select, textarea { text-align: right; }
   overflow: auto;
   background:#eee;
 }
-  @media print {
-  textarea {
-    white-space: pre-wrap !important;
-    word-break: break-word;
-    overflow: visible;
-  }
+.show-in-pdf {
+  display: none;
+}
+
+.pdf-mode .show-in-pdf {
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #eee;
+  padding: 8px;
+  border-radius: 5px;
 }
 </style>
 </head>
@@ -142,7 +147,9 @@ input, select, textarea { text-align: right; }
       </div> -->
 <div>
 <p><span>ااسم مقدم الطلب</span></p>
-<textarea class="selfName" readonly rows="4"></textarea>
+<!-- <textarea class="selfName" readonly rows="4"></textarea> -->
+  <textarea class="selfName hide-in-pdf" readonly rows="4"></textarea>
+<div class="selfNameView show-in-pdf"></div>
       </div>
       
       <!-- <div>
@@ -224,7 +231,9 @@ input, select, textarea { text-align: right; }
 
 <div>
 <p><span>الرقم القومى للموكل</span></p>
-<textarea class="nationalId" readonly rows="4"></textarea>
+<!-- <textarea class="nationalId" readonly rows="4"></textarea> -->
+  <textarea class="nationalId hide-in-pdf" readonly rows="4"></textarea>
+<div class="nationalIdView show-in-pdf"></div>
       </div>
       
       <div >
@@ -270,30 +279,7 @@ document.getElementById("mix").value = mix;
 document.querySelectorAll(".caseNumber").forEach(el => el.value = caseNumber);
 document.querySelectorAll(".selfName").forEach(el => el.value = selfName);
 document.querySelectorAll(".nationalId").forEach(el => el.value = nationalId);
-// function formatText(text) {
-//   const words = text.split(" ");
-//   let lines = [];
-//   let currentLine = "";
 
-//   words.forEach(word => {
-//     if ((currentLine + word).length > 4) {
-//       lines.push(currentLine);
-//       currentLine = word + " ";
-//     } else {
-//       currentLine += word + " ";
-//     }
-//   });
-
-//   lines.push(currentLine);
-//   return lines.join("\n");
-// }
-// document.querySelectorAll(".selfName").forEach(el => {
-//   el.value = formatText(selfName);
-// });
-
-// document.querySelectorAll(".nationalId").forEach(el => {
-//   el.value = formatText(nationalId);
-// });
 const agentNameTop = document.getElementById("agentNameTop");
 const applicantType = document.getElementById("applicantType");
 applicantType.addEventListener("change", function() {
@@ -375,6 +361,15 @@ const options = {
 
 // html2pdf().set(options).from(element).save();});
  html2pdf().set(options).from(element).save().then(() => {
+   // الاسم
+document.querySelectorAll(".selfName").forEach((el, i) => {
+  document.querySelectorAll(".selfNameView")[i].innerText = el.value;
+});
+
+// الرقم القومي
+document.querySelectorAll(".nationalId").forEach((el, i) => {
+  document.querySelectorAll(".nationalIdView")[i].innerText = el.value;
+});
     document.body.classList.remove("pdf-mode");
   });
 
