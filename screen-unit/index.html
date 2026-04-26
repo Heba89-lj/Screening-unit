@@ -98,8 +98,7 @@ body {
 <div id="main">
 
   
-<a href="home.html" class="logo-link"
-  onclick="handleClick(event, 'home.html')">
+<a href="home.html" class="logo-link">
   <div class="text-box">
     <div class="line1">طلبات الفحص المتنوع</div>
     <div class="line2">نيابة الشئون الاقتصادية وغسل الأموال</div>
@@ -116,7 +115,11 @@ body {
 </a>
 </div>
 
-/* async function updateCounter() {
+
+
+  <script>
+
+async function updateCounter() {
   try {
     const res = await fetch("/api/incrementCounter");
     const data = await res.json();
@@ -128,28 +131,7 @@ body {
 }
 
 // نحدث العداد لما الصفحة تفتح
-updateCounter(); */
-
-  <script>
-async function handleClick(event, url) {
-  event.preventDefault();
-
-  try {
-    const res = await fetch("/api/incrementCounter");
-    const data = await res.json();
-
-    document.getElementById("visitorCount").innerText =
-      "عدد متلقى الخدمة " + data.COUNT; // ✔️ لاحظ count مش COUNT
-  } catch (err) {
-    console.error(err);
-  }
-
-  // انتظار 5 ثواني
-  setTimeout(() => {
-    window.location.href = url;
-  }, 5000);
-}
-
+updateCounter(); 
 </script>
 </body>
 </html>
