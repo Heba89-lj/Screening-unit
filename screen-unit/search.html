@@ -193,14 +193,15 @@ const time = now.toLocaleTimeString("ar-EG", {
   minute: "2-digit"
 });
           resultDiv.innerHTML = `
+            <div style="color:gray; font-size:14px;">
+    تم الاستعلام يوم ${date} الساعة ${time}
+  </div>
             <table>
               <tr>
    <th>رقم الفحص</th>
  <td>
-  ${escapeHtml(r.number || "-")}<br>
-  <span style="color:gray; font-size:14px;">
-    تم الاستعلام يوم ${date} الساعة ${time}
-  </span>
+  ${escapeHtml(r.number || "-")}
+
 </td>
 </tr>
 
