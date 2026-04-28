@@ -175,49 +175,30 @@
         const data = await res.json();
         if(data.success){
           const r = data.result;
-//                const now = new Date();
+               const now = new Date();
 
-// const formatted = now.toLocaleString("ar-EG", {
-//   year: "numeric",
-//   month: "long",
-//   day: "numeric",
-//   hour: "2-digit",
-//   minute: "2-digit"
-// });
-
-          const now = new Date();
-
-// التاريخ
-const date = now.toLocaleDateString("ar-EG", {
-  weekday: "long",
+const formatted = now.toLocaleString("ar-EG", {
   year: "numeric",
   month: "long",
-  day: "numeric"
-});
-
-// الوقت
-const time = now.toLocaleTimeString("ar-EG", {
+  day: "numeric",
   hour: "2-digit",
   minute: "2-digit"
 });
+
+        
           resultDiv.innerHTML = `
             <table>
               <tr>
    <th>رقم الفحص</th>
-//   <td>
-//     ${escapeHtml(r.number || "-")}<br>
-//     <span style="color:gray; font-size:14px;">
-//       ${formatted}
-//     </span>
-//   </td>
-// </tr>
+  <td>
+    ${escapeHtml(r.number || "-")}<br>
+    <span style="color:gray; font-size:14px;">
+      ${formatted}
+    </span>
+  </td>
+</tr>
 
-<td>
-  ${escapeHtml(r.number || "-")}<br>
-  <span style="color:gray; font-size:14px;">
-    تم الاستعلام يوم ${date} الساعة ${time}
-  </span>
-</td>
+
               <tr><th>السنة</th><td>${escapeHtml(r.year || "-")}</td></tr>
               <tr><th>رقم القضية</th><td>${escapeHtml(r.caseNumber || "-")}</td></tr>
               <tr><th>اسم مقدم الطلب</th><td>${escapeHtml(r.applicant || "-")}</td></tr>
