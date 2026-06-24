@@ -401,7 +401,7 @@
     <p>⮱ اسم الوالدة "رباعي" / <input type="text" placeholder="اسم الأم الكامل"></p>
     <p>⮱ اسم الزوجة "رباعي" / <input type="text" placeholder=" اسم الزوجة الكامل او اعزب لم يسبق له الزواج"></p>
     <p>⮱ اسم الأبناء / <input type="text" placeholder="أسماء الأبناء"></p>
-    <p>⮱ رقم البطاقة الضريبية / <input type="text" placeholder="رقم البطاقة الضريبية او 9 اصفار"></p>
+    <p>⮱ رقم البطاقة الضريبية / <input type="text" placeholder="رقم البطاقة الضريبية او 9اصفار"></p>
 
     <p class="signature">✍ المقر بما فيه</p>
 
@@ -529,7 +529,7 @@
 
     // ✅ تحقق من الحقول الرباعية
     const nameFields = [
-      { selector: 'input[placeholder="أدخل الاسم الكامل هنا"]', label: "الاسم" },
+      { selector: 'input[placeholder="أدخل اسم المحامى او اسم مقدم الطلب بنفسه"]', label: "الاسم" },
       { selector: 'input[placeholder="اسم الأم الكامل"]', label: "اسم الوالدة" },
       { selector: 'input[placeholder="اسم الزوجة الكامل"]', label: "اسم الزوجة" }
     ];
@@ -591,7 +591,7 @@
   const btnsContainer = document.querySelector('.btns');
 
   // ======= تنسيق حقل البطاقة الضريبية =======
-  const taxInput = document.querySelector('input[placeholder="رقم البطاقة الضريبية"]');
+  const taxInput = document.querySelector('input[placeholder="رقم البطاقة الضريبية او 9اصفار"]');
   taxInput.addEventListener("input", (e) => {
     // let val = e.target.value.replace(/\D/g, ''); // إزالة أي شيء غير الأرقام
     let val = e.target.value
@@ -624,7 +624,7 @@
 
     // ✅ تحقق من الحقول الرباعية
     const nameFields = [
-      { selector: 'input[placeholder="أدخل الاسم الكامل هنا"]', label: "الاسم" },
+      { selector: 'input[placeholder="أدخل اسم المحامى او اسم مقدم الطلب بنفسه "]', label: "الاسم" },
       { selector: 'input[placeholder="اسم الأم الكامل"]', label: "اسم الوالدة" },
       { selector: 'input[placeholder="اسم الزوجة الكامل"]', label: "اسم الزوجة" }
     ];
