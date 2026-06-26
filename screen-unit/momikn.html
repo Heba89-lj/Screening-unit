@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -249,7 +249,188 @@ button:hover { background:#003580; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<!-- <script>
 
+// date
+document.getElementById("currentDate").textContent =
+new Date().toLocaleDateString("ar-EG");
+
+// toggle
+document.getElementById("applicantType").addEventListener("change", function () {
+  document.getElementById("selfFields").classList.add("hidden");
+  document.getElementById("agentFields").classList.add("hidden");
+
+  if (this.value === "self")
+    document.getElementById("selfFields").classList.remove("hidden");
+
+  if (this.value === "agent")
+    document.getElementById("agentFields").classList.remove("hidden");
+});
+
+
+// ================= VALIDATION =================
+
+function isEmpty(v) {
+  return !v || v.trim() === "";
+}
+
+function isPhone(v) {
+  return /^\d{11}$/.test(v);
+}
+
+function isNationalId(v) {
+  return /^\d{14}$/.test(v);
+}
+
+function isNumbersOnly(v) {
+  return /^\d+$/.test(v);
+}
+
+function isArabicLetters(v) {
+  return /^[\u0621-\u064A\s]+$/.test(v);
+}
+
+function isYear(v) {
+  return /^\d{4}$/.test(v);
+}
+
+function isAgentNameValid(name) {
+  return name.trim().split(/\s+/).length >= 4;
+}
+
+
+// ================= PDF =================
+
+document.getElementById("downloadPdf").addEventListener("click", function () {
+
+  const type = document.getElementById("applicantType").value;
+
+  if (!type) {
+    alert("من فضلك اختر صفة مقدم الطلب");
+    return;
+  }
+
+  // ===== SELF =====
+  if (type === "self") {
+
+    const phone = document.getElementById("selfPhone").value.trim();
+
+    if (!isPhone(phone)) {
+      alert("رقم الهاتف يجب أن يكون 11 رقم");
+      return;
+    }
+  }
+
+
+  // ===== AGENT =====
+  if (type === "agent") {
+
+    const agentName = document.getElementById("agentNameTopInput").value.trim();
+    const registryNumber = document.getElementById("registryNumber").value.trim();
+    const registryType = document.getElementById("registryType").value;
+    const agentID = document.getElementById("agentID").value.trim();
+    const agency = document.getElementById("agency").value.trim();
+    const powerNumber = document.getElementById("powerNumber").value.trim();
+    const powerLetter = document.getElementById("powerLetter").value.trim();
+    const powerYear = document.getElementById("powerYear").value.trim();
+    const agentPhone = document.getElementById("agentPhone").value.trim();
+
+    if (!isAgentNameValid(agentName)) {
+      alert("اسم الوكيل يجب أن يكون 4 كلمات على الأقل");
+      return;
+    }
+
+    if (!isNumbersOnly(registryNumber)) {
+      alert("رقم القيد يجب أن يكون أرقام فقط");
+      return;
+    }
+
+    if (!registryType) {
+      alert("اختر نوع القيد");
+      return;
+    }
+
+    if (!isNationalId(agentID)) {
+      alert("الرقم القومي يجب أن يكون 14 رقم");
+      return;
+    }
+
+    if (isEmpty(agency)) {
+      alert("ادخل جهة إصدار التوكيل");
+      return;
+    }
+
+    if (!isNumbersOnly(powerNumber)) {
+      alert("رقم التوكيل يجب أن يكون أرقام فقط");
+      return;
+    }
+
+    if (!isArabicLetters(powerLetter)) {
+      alert("حرف التوكيل يجب أن يكون حروف عربية فقط");
+      return;
+    }
+
+    if (!isYear(powerYear)) {
+      alert("سنة التوكيل يجب أن تكون 4 أرقام");
+      return;
+    }
+
+    if (!isPhone(agentPhone)) {
+      alert("رقم الهاتف يجب أن يكون 11 رقم");
+      return;
+    }
+  }
+
+  // ================= PDF RENDER =================
+
+  document.body.classList.add("pdf-mode");
+
+  const textareas = document.querySelectorAll("textarea");
+
+  textareas.forEach(t => {
+    const div = document.createElement("div");
+    div.className = "pdf-temp";
+    div.style.whiteSpace = "pre-wrap";
+    div.style.textAlign = "right";
+    div.style.padding = "8px";
+    div.style.background = "#eee";
+    div.style.border = "1px solid #ccc";
+
+    div.innerText = t.value;
+
+    t.style.display = "none";
+    t.parentNode.insertBefore(div, t.nextSibling);
+  });
+
+  const element = document.getElementById("mimkenForm");
+
+  const options = {
+    margin: 0,
+    filename: "نموذج.pdf",
+    image: { type: "jpeg", quality: 1 },
+    html2canvas: {
+      scale: 3,
+      useCORS: true,
+      scrollY: 0
+    },
+    jsPDF: {
+      unit: "px",
+      format: [element.scrollWidth, element.scrollHeight],
+      orientation: "portrait"
+    }
+  };
+
+  html2pdf().set(options).from(element).save().then(() => {
+
+    document.querySelectorAll(".pdf-temp").forEach(e => e.remove());
+    textareas.forEach(t => t.style.display = "");
+
+    document.body.classList.remove("pdf-mode");
+  });
+
+});
+
+</script> -->
 <script>
 
 const params = new URLSearchParams(window.location.search);
