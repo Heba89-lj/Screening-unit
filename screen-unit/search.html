@@ -110,7 +110,6 @@
   <!-- زرار الملاحظات (سيظهر فقط إذا هناك ملاحظات) -->
   <button id="notesBtn" style="display:none;">المديونية</button>
 
-  <!-- نافذة منبثقة -->
   <div id="notesModal">
     <div id="notesModalContent">
       <span id="closeModal">&times;</span>
@@ -159,12 +158,10 @@
       }
     });
 
-    // تحويل الأرقام العربية إلى إنجليزية أثناء الإدخال
     nationalIdInput.addEventListener("input", () => {
       nationalIdInput.value = nationalIdInput.value.replace(/[٠-٩]/g, d => "0123456789"[ "٠١٢٣٤٥٦٧٨٩".indexOf(d) ]);
     });
 
-    // تشغيل التغيير عند التحميل لأول مرة
     idTypeSelect.dispatchEvent(new Event("change"));
 
     async function search(number, year, nationalId){
@@ -223,13 +220,11 @@ const time = now.toLocaleTimeString("ar-EG", {
 
         const notesBtn = document.getElementById("notesBtn");
 
-        // إذا كان العمود hasNotes يحتوي على "مميكن"
         if(r.hasNotes && r.hasNotes.toString().toLowerCase().includes("مميكن")){
           notesBtn.textContent = "نموذج مميكن";
           notesBtn.style.display = "inline-block";
 
          notesBtn.onclick = () => {
-    // تمرير البيانات من نفس الصف (r) لصفحة momikn.html
 const url = `momikn.html?selfName=${encodeURIComponent(r.applicant)}
 &caseNumber=${encodeURIComponent(r.caseNumber)}
 &number=${encodeURIComponent(r.number)}
