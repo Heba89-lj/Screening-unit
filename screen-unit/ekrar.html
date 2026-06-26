@@ -607,6 +607,14 @@
     e.target.value = formatted;
   });
 
+const kids = document.getElementById("kids");
+
+kids.addEventListener("input", function () {
+    this.value = this.value
+        .replace(/\s*-\s*/g, " - ") 
+        .replace(/\s+/g, " - ");    
+});
+   
   downloadBtn.addEventListener("click", () => {
     const inputs = document.querySelectorAll("input, textarea");
     let allFilled = true;
@@ -624,13 +632,7 @@
     });
 
     
-const kids = document.getElementById("kids");
 
-kids.addEventListener("input", function () {
-    this.value = this.value
-        .replace(/\s*-\s*/g, " - ") 
-        .replace(/\s+/g, " - ");    
-});
     
     // ✅ تحقق من الحقول الرباعية
     const nameFields = [
