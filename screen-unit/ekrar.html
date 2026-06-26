@@ -607,13 +607,7 @@
     e.target.value = formatted;
   });
 
-const kids = document.getElementById("kids");
 
-kids.addEventListener("input", function (e) {
-    if (this.value.endsWith(" ")) {
-        this.value = this.value.slice(0, -1) + " - ";
-    }
-});
    
   downloadBtn.addEventListener("click", () => {
     const inputs = document.querySelectorAll("input, textarea");
