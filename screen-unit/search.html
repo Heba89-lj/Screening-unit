@@ -212,6 +212,12 @@ const time = now.toLocaleTimeString("ar-EG", {
               <tr><th>حالة الفحص</th><td>${escapeHtml(r.status || "-")}</td></tr>
               <tr><th>ما تم في الفحص</th><td class="prewrap">${escapeHtml(r.visa || "-").replace(/\r?\n/g,"<br>")}</td></tr>
               <tr><th>ملاحظات</th><td class="prewrap">${escapeHtml(r.notes || "-").replace(/\r?\n/g,"<br>")}</td></tr>
+            ${r.replyRequestNumber ? `
+<tr>
+  <th>رقم طلب الرد</th>
+  <td>${escapeHtml(r.replyRequestNumber)}</td>
+</tr>
+` : ""}
             </table>`;
    
 
