@@ -186,15 +186,26 @@
   });
 
 
-const kids = document.getElementById("kids");
+// const kids = document.getElementById("kids");
 
-kids.addEventListener("keydown", function (e) {
-    if (e.key === " ") {
-        e.preventDefault(); // يمنع كتابة المسافة
-        this.value += " - ";
+// kids.addEventListener("keydown", function (e) {
+//     if (e.key === " ") {
+//         e.preventDefault(); // يمنع كتابة المسافة
+//         this.value += " - ";
+//     }
+// });
+
+
+   const kids = document.getElementById("kids");
+
+kids.addEventListener("input", function () {
+    let value = this.value;
+
+    // إذا كانت آخر حاجة المستخدم كتبها مسافة
+    if (value.endsWith(" ")) {
+        this.value = value.slice(0, -1) + " - ";
     }
 });
-
   downloadBtn.addEventListener("click", () => {
     const inputs = document.querySelectorAll("input, textarea");
     let allFilled = true;
