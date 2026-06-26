@@ -196,18 +196,26 @@
 // });
 
 
- const kids = document.getElementById("kids");
+//  const kids = document.getElementById("kids");
 
-kids.addEventListener("input", function (e) {
-    // عند كتابة مسافة يحولها إلى -
-    if (this.value.endsWith(" ")) {
-        this.value = this.value.slice(0, -1) + " - ";
-    }
+// kids.addEventListener("input", function (e) {
+//     // عند كتابة مسافة يحولها إلى -
+//     if (this.value.endsWith(" ")) {
+//         this.value = this.value.slice(0, -1) + " - ";
+//     }
 
-    // إذا أصبحت النهاية " -" (بعد الحذف) يحذفها
-    if (this.value.endsWith(" -")) {
-        this.value = this.value.slice(0, -2);
-    }
+//     // إذا أصبحت النهاية " -" (بعد الحذف) يحذفها
+//     if (this.value.endsWith(" -")) {
+//         this.value = this.value.slice(0, -2);
+//     }
+// });
+
+   const kids = document.getElementById("kids");
+
+kids.addEventListener("blur", function () {
+    this.value = this.value
+        .trim()
+        .replace(/\s+/g, " - ");
 });
   downloadBtn.addEventListener("click", () => {
     const inputs = document.querySelectorAll("input, textarea");
