@@ -196,14 +196,17 @@
 // });
 
 
-   const kids = document.getElementById("kids");
+ const kids = document.getElementById("kids");
 
-kids.addEventListener("input", function () {
-    let value = this.value;
+kids.addEventListener("input", function (e) {
+    // عند كتابة مسافة يحولها إلى -
+    if (this.value.endsWith(" ")) {
+        this.value = this.value.slice(0, -1) + " - ";
+    }
 
-    // إذا كانت آخر حاجة المستخدم كتبها مسافة
-    if (value.endsWith(" ")) {
-        this.value = value.slice(0, -1) + " - ";
+    // إذا أصبحت النهاية " -" (بعد الحذف) يحذفها
+    if (this.value.endsWith(" -")) {
+        this.value = this.value.slice(0, -2);
     }
 });
   downloadBtn.addEventListener("click", () => {
