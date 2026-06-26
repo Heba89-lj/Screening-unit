@@ -609,10 +609,10 @@
 
 const kids = document.getElementById("kids");
 
-kids.addEventListener("input", function () {
-    this.value = this.value
-        // .replace(/\s*-\s*/g, " - ") 
-        .replace(/\s+/g, " - ");    
+kids.addEventListener("input", function (e) {
+    if (this.value.endsWith(" ")) {
+        this.value = this.value.slice(0, -1) + " - ";
+    }
 });
    
   downloadBtn.addEventListener("click", () => {
