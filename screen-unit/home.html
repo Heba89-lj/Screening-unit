@@ -56,18 +56,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      /* ✅ بدل "flex-end" خلتها "center" علشان الأزرار تكون في منتصف الشاشة */
       flex: 1;
       flex-direction: column;
-      /* ✅ تخليهم تحت بعض */
       gap: 20px;
-      /* ✅ مسافة بين الأزرار */
     }
 
     .buttons-container {
       display: flex;
       flex-direction: column;
-      /* ✅ الأزرار تحت بعض */
       gap: 20px;
       justify-content: center;
       align-items: center;
@@ -83,7 +79,6 @@
       border-radius: 8px;
       transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
       width: 220px;
-      /* ✅ نفس العرض لكل زر */
       text-align: center;
     }
 
@@ -102,7 +97,6 @@
     @media (max-width: 600px) {
       .buttons-container a {
         width: 100%;
-        /* ✅ عرض متجاوب على الموبايل */
         padding: 12px 20px;
         font-size: 1.7rem;
       }
@@ -147,8 +141,8 @@
 /* موبايل */
 @media(max-width:600px){
   .chat-float-btn{
-    padding:12px 20px;      /* عرض أكبر من الطول */
-    border-radius:30px;    /* يخلي الجانبين دايرة */
+    padding:12px 20px;      
+    border-radius:30px;    
   }
 }
 
@@ -185,7 +179,7 @@ font-size:20px;  }
   pointer-events:none;
   transform:translateY(30px) scale(.95);
   transition:.7s cubic-bezier(.22, 1, .36, 1);
-    z-index: 1000; /* ممكن نرفع الرقم */
+    z-index: 1000; 
 color:black;
 }
 
@@ -515,7 +509,6 @@ animation: iconPulse 1.1s infinite;}
   </footer>
 
   <script>
-    // ✅ تحميل الهيدر الخارجى
     fetch('header.html')
       .then(response => response.text())
       .then(data => {
@@ -523,7 +516,6 @@ animation: iconPulse 1.1s infinite;}
       })
       .catch(error => console.error('خطأ في تحميل الهيدر:', error));
 
-    // ✅ تحديث الـ service worker (لو موجود)
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(registrations => {
         for (let registration of registrations) {
@@ -545,7 +537,6 @@ toggleChat.onclick = () => {
   const isOpen = chatBox.classList.toggle("show");
 
   if (isOpen) {
-    // عند الفتح: تنظيف الشات وإضافة التحية
     chatBody.innerHTML = "";
     addMessage("👋 السلام عليكم ورحمة الله وبركاته\nمع حضرتك المساعد الذكي للفحص المتنوع\nأخبار حضرتك يارب تكون بخير\nأنا موجود هنا لمساعدتك اتفضل.", "bot");
   } else {
@@ -553,21 +544,17 @@ toggleChat.onclick = () => {
     const closingMsg = "👋 شكراً لاستخدامك المساعد الذكي، إلى اللقاء!";
     addMessage(closingMsg, "bot");
 
-    // تمرير الشات لأسفل تلقائيًا لضمان ظهور الرسالة
     chatBody.scrollTop = chatBody.scrollHeight;
 
-    // نترك الرسالة على الشاشة 10 ثواني قبل الإغلاق
     setTimeout(() => {
-      // عمل FadeOut للشات
       chatBox.style.transition = "opacity 1s ease";
       chatBox.style.opacity = "0";
 
-      // بعد انتهاء الـ FadeOut نغلق الشات ونعيد الإعدادات
       setTimeout(() => {
         chatBox.classList.remove("show");
-        chatBox.style.opacity = ""; // لإعادة الوضع الطبيعي عند الفتح القادم
+        chatBox.style.opacity = ""; 
       }, 1000);
-    }, 10000); // مدة عرض رسالة الختام: 10 ثواني
+    }, 10000); 
   }
 };
 
@@ -617,56 +604,7 @@ async function sendMessage(){
 chatInput.addEventListener("keydown",e=>{
   if(e.key==="Enter") sendMessage();
 });
-    // *******************
-
-    /* ===================== Notifications Code ===================== */
-
-
-//  const notifBtn = document.getElementById("notifBtn");
-//     const notifBar = document.getElementById("notifBar");
-//     const notifTrack = document.getElementById("notifTrack");
-//     const notifCount = document.getElementById("notifCount");
-
-//    async function loadNotifications(){
-//   try{
-//     const res = await fetch("/api/notifications");
-//     const data = await res.json();
-
-//     const messages = (data.messages && data.messages.length)
-//       ? data.messages
-//       : ["لا توجد إشعارات حالياً"];
-
-//     notifTrack.innerHTML = `<span class="notif-text">${messages.join(" 🔹 ")}</span>`;
-
-//     // 🔔 عداد الجرس
-//     if(data.messages && data.messages.length>0){
-//       notifCount.innerText = data.messages.length;
-//       notifCount.classList.remove("hide");
-//     }else{
-//       notifCount.classList.add("hide");
-//     }
-
-//     // ✅ تثبيت سرعة الحركة
-//     setTimeout(() => {
-//       const notifText = notifTrack.querySelector(".notif-text");
-
-//       const textWidth = notifText.offsetWidth;
-//       const containerWidth = notifBar.offsetWidth;
-
-//       const totalDistance = textWidth + containerWidth;
-
-//       const duration = totalDistance / 70;
-
-//       notifTrack.style.animationDuration = duration + "s";
-//     }, 100);
-
-//   }catch{
-//     notifTrack.innerHTML = `<span class="notif-text">❌ فشل تحميل الإشعارات</span>`;
-//     notifCount.classList.add("hide");
-//   }
-// }
-// // ✅ لازم ده
-// loadNotifications();
+   // loadNotifications();
  const notifBtn = document.getElementById("notifBtn");
     const notifBar = document.getElementById("notifBar");
     const notifTrack = document.getElementById("notifTrack");
@@ -716,7 +654,7 @@ notifTrack.innerHTML = `
     notifCount.classList.add("hide");
   }
 }
-// ✅ لازم ده
+
 loadNotifications();
   </script>
 </body>
