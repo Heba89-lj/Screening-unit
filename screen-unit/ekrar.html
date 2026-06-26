@@ -400,8 +400,7 @@
     <p>⮱ العمل وعنوانه / <input type="text" placeholder="جهة العمل وعنوان العمل"></p>
     <p>⮱ اسم الوالدة "رباعي" / <input type="text" placeholder="اسم الأم الكامل"></p>
     <p>⮱ اسم الزوجة "رباعي" / <input type="text" placeholder=" اسم الزوجة الكامل او اعزب لم يسبق له الزواج"></p>
-        <p>⮱ اسم الأبناء / <input type="text" id="kids" placeholder="أسم الأبن او الابنة فقط"></p>
-
+    <p>⮱ اسم الأبناء / <input type="text" id="kids" placeholder="أسم الأبن او الابنة فقط"></p>
     <p>⮱ رقم البطاقة الضريبية / <input type="text" placeholder="رقم البطاقة الضريبية او 9اصفار"></p>
 
     <p class="signature">✍ المقر بما فيه</p>
@@ -608,7 +607,15 @@
   });
 
 
-   
+const kids = document.getElementById("kids");
+
+kids.addEventListener("keydown", function (e) {
+    if (e.key === " ") {
+        e.preventDefault(); // يمنع كتابة المسافة
+        this.value += " - ";
+    }
+});
+
   downloadBtn.addEventListener("click", () => {
     const inputs = document.querySelectorAll("input, textarea");
     let allFilled = true;
@@ -625,15 +632,13 @@
       }
     });
 
-    
-
-    
     // ✅ تحقق من الحقول الرباعية
     const nameFields = [
       { selector: 'input[placeholder="أدخل اسم المحامى او اسم مقدم الطلب بنفسه "]', label: "الاسم" },
       { selector: 'input[placeholder="اسم الأم الكامل"]', label: "اسم الوالدة" },
       { selector: 'input[placeholder=" اسم الزوجة الكامل او اعزب لم يسبق له الزواج"]', label: "اسم الزوجة" }
     ];
+
 
     nameFields.forEach(field => {
       const input = document.querySelector(field.selector);
@@ -698,6 +703,7 @@
 
 
 </html>
+
 
 
 
