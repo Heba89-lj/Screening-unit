@@ -79,12 +79,14 @@ export default async function handler(req, res) {
           status: match[5],
           visa: match[6],
           notes: match[7],
-           hasNotes: match[9],              // عمود "وجود ملاحظات"
-      publicProsecution: match[10],    // مطالبات نائب عام
-      justiceRequests: match[11],      // مطالبات وزارة العدل
-      taxes: match[12],                // ضرائب
-      courtExecution: match[13],       // تنفيذ أحكام
+           hasNotes: match[9],             
+      publicProsecution: match[10],    
+      justiceRequests: match[11],      
+      taxes: match[12],                
+      courtExecution: match[13],       
         mix: match[14],
+                  replyRequestNumber: match[15],
+
         },
       });
     }
