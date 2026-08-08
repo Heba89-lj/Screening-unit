@@ -206,7 +206,18 @@ const time = now.toLocaleTimeString("ar-EG", {
               <tr><th>السنة</th><td>${escapeHtml(r.year || "-")}</td></tr>
               <tr><th>رقم القضية</th><td>${escapeHtml(r.caseNumber || "-")}</td></tr>
               <tr><th>اسم مقدم الطلب</th><td>${escapeHtml(r.applicant || "-")}</td></tr>
-              <tr><th>حالة الفحص</th><td>${escapeHtml(r.status || "-")}</td></tr>
+              // <tr><th>حالة الفحص</th><td>${escapeHtml(r.status || "-")}</td></tr>
+              <tr>
+  <th>حالة الفحص</th>
+  <td>
+    ${escapeHtml(r.status || "-")}
+    ${
+      r.status && r.status.includes("أرسلت القضية لنيابة الشئون الإقتصادية وغسل الأموال بمكتب النائب العام")
+        ? ` <a href="https://maps.app.goo.gl/umUJwWYGYgfTV4aP8?g_st=aw" target="_blank" style="margin-right:10px;">📍 Location</a>`
+        : ""
+    }
+  </td>
+</tr>
               <tr><th>ما تم في الفحص</th><td class="prewrap">${escapeHtml(r.visa || "-").replace(/\r?\n/g,"<br>")}</td></tr>
               <tr><th>ملاحظات</th><td class="prewrap">${escapeHtml(r.notes || "-").replace(/\r?\n/g,"<br>")}</td></tr>
             ${r.replyRequestNumber ? `
