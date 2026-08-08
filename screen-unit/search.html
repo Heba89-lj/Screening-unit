@@ -141,7 +141,6 @@
       }
     }
 
-    // تغيير الحقل حسب الاختيار (الرقم القومي / جواز السفر)
     const idTypeSelect = document.getElementById("idType");
     const nationalIdInput = document.getElementById("nationalId");
 
@@ -176,7 +175,6 @@
 
         const now = new Date();
 
-// التاريخ
 const date = now.toLocaleDateString("ar-EG", {
   weekday: "long",
   year: "numeric",
@@ -184,7 +182,6 @@ const date = now.toLocaleDateString("ar-EG", {
   day: "numeric"
 });
 
-// الوقت
 const time = now.toLocaleTimeString("ar-EG", {
   hour: "2-digit",
   minute: "2-digit"
@@ -213,7 +210,7 @@ const time = now.toLocaleTimeString("ar-EG", {
     ${escapeHtml(r.status || "-")}
     ${
       r.status && r.status.includes("أرسلت القضية لنيابة الشئون الإقتصادية وغسل الأموال بمكتب النائب العام")
-        ? ` <a href="https://maps.app.goo.gl/umUJwWYGYgfTV4aP8?g_st=aw" target="_blank" style="margin-right:10px;">📍 Location</a>`
+        ? ` <a href="https://maps.app.goo.gl/umUJwWYGYgfTV4aP8?g_st=aw" target="_blank" style="margin-right:10px;">📍 العنوان</a>`
         : ""
     }
   </td>
