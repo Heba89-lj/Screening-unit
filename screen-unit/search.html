@@ -122,21 +122,72 @@
       font-size: 18px;
       color: #555;
     }
+  .message {
+            direction: rtl;
+            text-align: center;
+            line-height: 2;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            background: #f8f9fa;
+            border: 1px solid #e1e5ea;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin: 25px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
 
-    .date-box {
+        .message p {
+            margin: 0;
+        }
+
+        .date {
+            color: #0066cc;
+            font-size: 21px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .space-after {
+            margin-top: 18px !important;
+        }
+
+        .thanks {
+            margin-top: 20px !important;
+            font-weight: 700;
+        }
+
+        .message p {
+            margin: 0;
+        }
+
+        .message p+p {
+            margin-top: 4px;
+        }
+
+        .message p:nth-child(3) {
+            margin-top: 18px;
+        }
+
+        .message p:last-child {
+            margin-top: 18px;
+            font-weight: 700;
+        }
+    /* .date-box {
       background: #f4f7fb;
       border-radius: 18px;
       padding: 25px;
       margin: 25px 0;
-    }
+    } */
 
-    .date-box strong {
+    /* .date-box strong {
       display: block;
       color: #0d6efd;
       font-size: 24px;
       line-height: 1.8;
       margin: 10px 0;
-    }
+    } */
 
     #agreeButton {
       background: #0d6efd;
@@ -185,8 +236,26 @@
         <div class="notice-icon">
           🔔
         </div>
+       <h1>تنبيه هام</h1>
 
-        <h1>تنبيه هام</h1>
+ <div class="message">
+            <p>نحيط علم سيادتكم بأن موظف الفحص قائم بإجازة</p>
+
+            <p>
+                اعتبارًا من يوم
+                <span class="date">السبت الموافق 15 أغسطس 2026</span>
+            </p>
+
+            <p class="space-after">ويسعدنا مساعدتكم وتلقي طلباتكم</p>
+
+            <p>
+                اعتبارًا من يوم
+                <span class="date">الأحد الموافق 23 أغسطس 2026</span>
+            </p>
+
+            <p class="thanks">شكرًا لحسن تعاونكم معنا</p>
+     
+        <!-- <h1>تنبيه هام</h1>
 
         <p>
           يرجى العلم بموعد الإجازة القادمة
@@ -212,7 +281,7 @@
 
         <p>
           يرجى قراءة التنبيه قبل متابعة الاستعلام
-        </p>
+        </p> -->
 
         <button id="agreeButton">
           قرأت التنبيه وأوافق
