@@ -74,7 +74,7 @@
   font-size:20px; 
 } */
 
-#vacationNotice {
+/* #vacationNotice {
       display: none;
       position: fixed;
       top: 0;
@@ -152,7 +152,7 @@
     #agreeButton:hover {
       background: #084298;
     }
-    
+     */
   </style>
 </head>
 
@@ -179,7 +179,7 @@
 
     <button id="searchBtn">بحث</button>
 
-    <div id="vacationNotice" style="display: none;">
+    <!-- <div id="vacationNotice" style="display: none;">
 
       <div class="notice-card">
 
@@ -221,7 +221,7 @@
 
       </div>
 
-    </div>
+    </div> -->
     
     <div id="result" style="margin-top:20px; font-weight:bold;"></div>
         <div id="printTime" style="margin-top:10px; color:white;"></div>
@@ -239,7 +239,7 @@
     </div>
   </div>
 
-  <!-- <script>
+  <script>
     fetch("header.html").then(res => res.text()).then(html => document.getElementById("header").innerHTML = html);
 
     function normalize(str="") { return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim(); }
@@ -431,10 +431,10 @@ window.location.href = url;}
     document.getElementById("notesModal").onclick = (e) => { if(e.target.id === "notesModal") e.target.style.display = "none"; }
 
 
-  </script> -->
+  </script>
 
 
-  <script>
+  <!-- <script>
     fetch("header.html")
       .then(res => res.text())
       .then(html => document.getElementById("header").innerHTML = html);
@@ -937,7 +937,7 @@ window.location.href = url;}
 
     };
 
-  </script>
+  </script> -->
 </body>
 </html>
 
