@@ -76,6 +76,86 @@
   cursor:pointer; 
   font-size:20px; 
 } */
+
+#vacationNotice {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.65);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .notice-card {
+      width: 100%;
+      max-width: 650px;
+      background: white;
+      border-radius: 25px;
+      padding: 40px 30px;
+      text-align: center;
+      color: #333;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .notice-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: #fff3cd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+    }
+
+    .notice-card h1 {
+      margin: 0 0 10px;
+      color: #0a1f44;
+      font-size: 30px;
+    }
+
+    .notice-card p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .date-box {
+      background: #f4f7fb;
+      border-radius: 18px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+
+    .date-box strong {
+      display: block;
+      color: #0d6efd;
+      font-size: 24px;
+      line-height: 1.8;
+      margin: 10px 0;
+    }
+
+    #agreeButton {
+      background: #0d6efd;
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    #agreeButton:hover {
+      background: #084298;
+    }
+    
   </style>
 </head>
 
@@ -102,6 +182,50 @@
 
     <button id="searchBtn">بحث</button>
 
+    <div id="vacationNotice" style="display: none;">
+
+      <div class="notice-card">
+
+        <div class="notice-icon">
+          🔔
+        </div>
+
+        <h1>تنبيه هام</h1>
+
+        <p>
+          يرجى العلم بموعد الإجازة القادمة
+        </p>
+
+        <div class="date-box">
+
+          <div>
+            موعد الإجازة
+          </div>
+
+          <strong>
+            من 15 أغسطس 2026
+            <br>
+            إلى 20 أغسطس 2026
+          </strong>
+
+          <div>
+            مدة الإجازة: 5 أيام
+          </div>
+
+        </div>
+
+        <p>
+          يرجى قراءة التنبيه قبل متابعة الاستعلام
+        </p>
+
+        <button id="agreeButton">
+          قرأت التنبيه وأوافق
+        </button>
+
+      </div>
+
+    </div>
+    
     <div id="result" style="margin-top:20px; font-weight:bold;"></div>
         <div id="printTime" style="margin-top:10px; color:white;"></div>
 
@@ -118,7 +242,7 @@
     </div>
   </div>
 
-  <script>
+  <!-- <script>
     fetch("header.html").then(res => res.text()).then(html => document.getElementById("header").innerHTML = html);
 
     function normalize(str="") { return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).trim(); }
@@ -309,6 +433,512 @@ window.location.href = url;}
     document.getElementById("closeModal").onclick = () => document.getElementById("notesModal").style.display = "none";
     document.getElementById("notesModal").onclick = (e) => { if(e.target.id === "notesModal") e.target.style.display = "none"; }
 
+
+  </script> -->
+
+
+  <script>
+    fetch("header.html")
+      .then(res => res.text())
+      .then(html => document.getElementById("header").innerHTML = html);
+
+    function normalize(str = "") {
+      return str
+        .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+        .trim();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const storedNumbers = JSON.parse(
+      localStorage.getItem("searchNumbers") || "[]"
+    );
+
+    const storedYears = JSON.parse(
+      localStorage.getItem("searchYears") || "[]"
+    );
+
+    const storedNationalIds = JSON.parse(
+      localStorage.getItem("searchNationalIds") || "[]"
+    );
+
+    function updateDatalist(id, data) {
+      document.getElementById(id).innerHTML =
+        data.map(v => `<option value="${v}"></option>`).join("");
+    }
+
+    updateDatalist("previousNumbers", storedNumbers);
+    updateDatalist("previousYears", storedYears);
+    updateDatalist("previousNationalIds", storedNationalIds);
+
+    function saveValue(array, key, value) {
+      if (value && !array.includes(value)) {
+        array.unshift(value);
+
+        if (array.length > 10) {
+          array.pop();
+        }
+
+        localStorage.setItem(key, JSON.stringify(array));
+      }
+    }
+
+
+    // تغيير الحقل حسب الاختيار
+    const idTypeSelect = document.getElementById("idType");
+    const nationalIdInput = document.getElementById("nationalId");
+
+    idTypeSelect.addEventListener("change", () => {
+      const type = idTypeSelect.value;
+
+      nationalIdInput.value = "";
+
+      if (type === "national") {
+        nationalIdInput.placeholder = "أدخل الرقم القومي (14 رقم)";
+        nationalIdInput.maxLength = 14;
+      } else {
+        nationalIdInput.placeholder = "أدخل رقم جواز السفر (10 خانات)";
+        nationalIdInput.maxLength = 10;
+      }
+    });
+
+
+    // تحويل الأرقام العربية إلى إنجليزية
+    nationalIdInput.addEventListener("input", () => {
+      nationalIdInput.value = nationalIdInput.value.replace(
+        /[٠-٩]/g,
+        d => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]
+      );
+    });
+
+    // تشغيل التغيير عند تحميل الصفحة
+    idTypeSelect.dispatchEvent(new Event("change"));
+
+
+    // النتيجة التي تم العثور عليها وننتظر موافقة المستخدم
+    let pendingResult = null;
+
+
+    // ==========================================
+    // عرض نتيجة البحث
+    // ==========================================
+    function showResult(r) {
+
+      const resultDiv = document.getElementById("result");
+
+      const now = new Date();
+
+      // التاريخ
+      const date = now.toLocaleDateString("ar-EG", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+      // الوقت
+      const time = now.toLocaleTimeString("ar-EG", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+
+      resultDiv.innerHTML = `
+      <div style="color:white; font-size:18px;">
+        تم الاستعلام يوم ${date} الساعة ${time}
+      </div>
+
+      <table>
+
+        <tr>
+          <th>رقم الفحص</th>
+          <td>${escapeHtml(r.number || "-")}</td>
+        </tr>
+
+        <tr>
+          <th>السنة</th>
+          <td>${escapeHtml(r.year || "-")}</td>
+        </tr>
+
+        <tr>
+          <th>رقم القضية</th>
+          <td>${escapeHtml(r.caseNumber || "-")}</td>
+        </tr>
+
+        <tr>
+          <th>اسم مقدم الطلب</th>
+          <td>${escapeHtml(r.applicant || "-")}</td>
+        </tr>
+
+        <tr>
+          <th>حالة الفحص</th>
+          <td>${escapeHtml(r.status || "-")}</td>
+        </tr>
+
+        <tr>
+          <th>ما تم في الفحص</th>
+          <td class="prewrap">
+            ${escapeHtml(r.visa || "-").replace(/\r?\n/g, "<br>")}
+          </td>
+        </tr>
+
+        <tr>
+          <th>ملاحظات</th>
+          <td class="prewrap">
+            ${escapeHtml(r.notes || "-").replace(/\r?\n/g, "<br>")}
+          </td>
+        </tr>
+
+        ${r.replyRequestNumber
+          ? `
+              <tr>
+                <th>رقم طلب الرد</th>
+                <td>${escapeHtml(r.replyRequestNumber)}</td>
+              </tr>
+            `
+          : ""
+        }
+
+      </table>
+    `;
+    }
+
+
+    // ==========================================
+    // البحث
+    // ==========================================
+    async function search(number, year, nationalId) {
+
+      const resultDiv = document.getElementById("result");
+
+      resultDiv.innerHTML = "جارٍ البحث...";
+
+      try {
+
+        const res = await fetch(
+          `/api/search?number=${encodeURIComponent(number)}&year=${encodeURIComponent(year)}&nationalId=${encodeURIComponent(nationalId)}`
+        );
+
+        const data = await res.json();
+
+
+        // لو وجدنا نتيجة
+        if (data.success) {
+
+          pendingResult = data.result;
+
+        } else {
+
+          pendingResult = null;
+
+        }
+
+
+        // في الحالتين يظهر تنبيه الإجازة أولاً
+        document.getElementById("vacationNotice").style.display = "flex";
+
+
+        // حفظ عمليات البحث
+        saveValue(
+          storedNumbers,
+          "searchNumbers",
+          number
+        );
+
+        saveValue(
+          storedYears,
+          "searchYears",
+          year
+        );
+
+        saveValue(
+          storedNationalIds,
+          "searchNationalIds",
+          nationalId
+        );
+
+
+        updateDatalist(
+          "previousNumbers",
+          storedNumbers
+        );
+
+        updateDatalist(
+          "previousYears",
+          storedYears
+        );
+
+        updateDatalist(
+          "previousNationalIds",
+          storedNationalIds
+        );
+
+
+      } catch (err) {
+
+        console.error(err);
+
+        resultDiv.textContent =
+          "حدث خطأ في الاتصال بالسيرفر.";
+
+        document.getElementById("notesBtn").style.display = "none";
+      }
+    }
+
+
+    // ==========================================
+    // زر: قرأت التنبيه وأوافق
+    // ==========================================
+    document.getElementById("agreeButton").addEventListener("click", () => {
+
+      // إخفاء كارت الإجازة
+      document.getElementById("vacationNotice").style.display = "none";
+
+
+      const notesBtn = document.getElementById("notesBtn");
+
+
+      // ==========================================
+      // لو تم العثور على نتيجة
+      // ==========================================
+      if (pendingResult) {
+
+        const r = pendingResult;
+
+
+        // عرض نتيجة البحث
+        showResult(r);
+
+
+        // ==========================================
+        // نموذج مميكن
+        // ==========================================
+        if (
+          r.hasNotes &&
+          r.hasNotes
+            .toString()
+            .toLowerCase()
+            .includes("مميكن")
+        ) {
+
+          notesBtn.textContent = "نموذج مميكن";
+
+          notesBtn.style.display = "inline-block";
+
+
+          notesBtn.onclick = () => {
+
+            const url =
+              `momikn.html?selfName=${encodeURIComponent(r.applicant)}` +
+              `&caseNumber=${encodeURIComponent(r.caseNumber)}` +
+              `&number=${encodeURIComponent(r.number)}` +
+              `&mix=${encodeURIComponent(r.mix)}` +
+              `&nationalId=${encodeURIComponent(r.nationalId || "")}`;
+
+
+            window.location.href = url;
+          };
+
+
+        }
+
+
+        // ==========================================
+        // المديونية
+        // ==========================================
+        else if (
+          r.hasNotes &&
+          r.hasNotes
+            .toString()
+            .toLowerCase()
+            .includes("ملاحظات")
+        ) {
+
+          notesBtn.textContent = "المديونية";
+
+          notesBtn.style.display = "inline-block";
+
+
+          notesBtn.onclick = () => {
+
+            const modalTable =
+              document.getElementById("modalTable");
+
+            modalTable.innerHTML = "";
+
+
+            if (r.publicProsecution) {
+
+              modalTable.innerHTML += `
+              <tr>
+                <th>مطالبات نائب عام</th>
+                <td>${escapeHtml(r.publicProsecution)}</td>
+              </tr>
+            `;
+            }
+
+
+            if (r.justiceRequests) {
+
+              modalTable.innerHTML += `
+              <tr>
+                <th>مطالبات وزارة العدل</th>
+                <td>${escapeHtml(r.justiceRequests)}</td>
+              </tr>
+            `;
+            }
+
+
+            if (r.taxes) {
+
+              modalTable.innerHTML += `
+              <tr>
+                <th>الضرائب</th>
+                <td>${escapeHtml(r.taxes)}</td>
+              </tr>
+            `;
+            }
+
+
+            if (r.courtExecution) {
+
+              modalTable.innerHTML += `
+              <tr>
+                <th>تنفيذ الأحكام</th>
+                <td>${escapeHtml(r.courtExecution)}</td>
+              </tr>
+            `;
+            }
+
+
+            document.getElementById("notesModal").style.display =
+              "flex";
+          };
+        }
+
+
+        // لا يوجد مميكن ولا ملاحظات
+        else {
+
+          notesBtn.style.display = "none";
+
+        }
+
+
+      }
+
+
+      // ==========================================
+      // لا توجد نتيجة
+      // ==========================================
+      else {
+
+        document.getElementById("result").textContent =
+          "لم يتم العثور على بيانات لهذا الفحص.";
+
+        notesBtn.style.display = "none";
+      }
+
+    });
+
+
+    // ==========================================
+    // زر البحث
+    // ==========================================
+    document.getElementById("searchBtn").addEventListener("click", () => {
+
+      const number =
+        normalize(
+          document.getElementById("number").value.trim()
+        );
+
+      const year =
+        normalize(
+          document.getElementById("year").value.trim()
+        );
+
+      const nationalId =
+        normalize(
+          document.getElementById("nationalId").value.trim()
+        );
+
+      const type =
+        document.getElementById("idType").value;
+
+
+      // التأكد من إدخال البيانات
+      if (!number || !year || !nationalId) {
+
+        document.getElementById("result").textContent =
+          "من فضلك أدخل رقم الفحص والسنة والرقم القومي/جواز السفر.";
+
+        return;
+      }
+
+
+      // الرقم القومي = 14 رقم
+      if (
+        type === "national" &&
+        nationalId.length !== 14
+      ) {
+
+        document.getElementById("result").textContent =
+          "يجب أن يتكون الرقم القومي من 14 رقمًا بالضبط.";
+
+        return;
+      }
+
+
+      // جواز السفر = لا يزيد عن 10 خانات
+      if (
+        type === "passport" &&
+        nationalId.length > 10
+      ) {
+
+        document.getElementById("result").textContent =
+          "رقم جواز السفر يجب ألا يزيد عن 10 خانات.";
+
+        return;
+      }
+
+
+      // تنفيذ البحث
+      search(
+        number,
+        year,
+        nationalId
+      );
+
+    });
+
+
+    // ==========================================
+    // إغلاق Modal المديونية
+    // ==========================================
+    document.getElementById("closeModal").onclick = () => {
+
+      document.getElementById("notesModal").style.display =
+        "none";
+
+    };
+
+
+    document.getElementById("notesModal").onclick = (e) => {
+
+      if (e.target.id === "notesModal") {
+
+        e.target.style.display = "none";
+
+      }
+
+    };
 
   </script>
 </body>
