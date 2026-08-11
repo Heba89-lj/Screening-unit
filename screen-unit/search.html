@@ -761,158 +761,18 @@ window.location.href = url;}
     // ==========================================
     // زر: قرأت التنبيه وأوافق
     // ==========================================
-    document.getElementById("agreeButton").addEventListener("click", () => {
 
-      // إخفاء كارت الإجازة
-      document.getElementById("vacationNotice").style.display = "none";
+document.getElementById("agreeButton").addEventListener("click", (e) => {
 
+    e.preventDefault();
 
-      const notesBtn = document.getElementById("notesBtn");
+    document.getElementById("vacationNotice").style.display = "none";
 
+    if (pendingResult) {
+        showResult(pendingResult);
+    }
 
-      // ==========================================
-      // لو تم العثور على نتيجة
-      // ==========================================
-      if (pendingResult) {
-
-        const r = pendingResult;
-
-
-        // عرض نتيجة البحث
-        showResult(r);
-
-
-        // ==========================================
-        // نموذج مميكن
-        // ==========================================
-        if (
-          r.hasNotes &&
-          r.hasNotes
-            .toString()
-            .toLowerCase()
-            .includes("مميكن")
-        ) {
-
-          notesBtn.textContent = "نموذج مميكن";
-
-          notesBtn.style.display = "inline-block";
-
-
-          notesBtn.onclick = () => {
-
-            const url =
-              `momikn.html?selfName=${encodeURIComponent(r.applicant)}` +
-              `&caseNumber=${encodeURIComponent(r.caseNumber)}` +
-              `&number=${encodeURIComponent(r.number)}` +
-              `&mix=${encodeURIComponent(r.mix)}` +
-              `&nationalId=${encodeURIComponent(r.nationalId || "")}`;
-
-
-            window.location.href = url;
-          };
-
-
-        }
-
-
-        // ==========================================
-        // المديونية
-        // ==========================================
-        else if (
-          r.hasNotes &&
-          r.hasNotes
-            .toString()
-            .toLowerCase()
-            .includes("ملاحظات")
-        ) {
-
-          notesBtn.textContent = "المديونية";
-
-          notesBtn.style.display = "inline-block";
-
-
-          notesBtn.onclick = () => {
-
-            const modalTable =
-              document.getElementById("modalTable");
-
-            modalTable.innerHTML = "";
-
-
-            if (r.publicProsecution) {
-
-              modalTable.innerHTML += `
-              <tr>
-                <th>مطالبات نائب عام</th>
-                <td>${escapeHtml(r.publicProsecution)}</td>
-              </tr>
-            `;
-            }
-
-
-            if (r.justiceRequests) {
-
-              modalTable.innerHTML += `
-              <tr>
-                <th>مطالبات وزارة العدل</th>
-                <td>${escapeHtml(r.justiceRequests)}</td>
-              </tr>
-            `;
-            }
-
-
-            if (r.taxes) {
-
-              modalTable.innerHTML += `
-              <tr>
-                <th>الضرائب</th>
-                <td>${escapeHtml(r.taxes)}</td>
-              </tr>
-            `;
-            }
-
-
-            if (r.courtExecution) {
-
-              modalTable.innerHTML += `
-              <tr>
-                <th>تنفيذ الأحكام</th>
-                <td>${escapeHtml(r.courtExecution)}</td>
-              </tr>
-            `;
-            }
-
-
-            document.getElementById("notesModal").style.display =
-              "flex";
-          };
-        }
-
-
-        // لا يوجد مميكن ولا ملاحظات
-        else {
-
-          notesBtn.style.display = "none";
-
-        }
-
-
-      }
-
-
-      // ==========================================
-      // لا توجد نتيجة
-      // ==========================================
-      else {
-
-        document.getElementById("result").textContent =
-          "لم يتم العثور على بيانات لهذا الفحص.";
-
-        notesBtn.style.display = "none";
-      }
-
-    });
-
+});
 
     // ==========================================
     // زر البحث
