@@ -120,6 +120,88 @@ body {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
+  
+</style>
+</head>
+
+<body>
+<div id="visitorContainer">
+  <span id="visitorCount"></span>
+</div>
+<div id="main">
+
+  
+<!-- <a href="home.html" class="logo-link"> -->
+     <a href="home.html" class="logo-link" onclick="showVacationNotice(event)"></a>
+
+  <div class="text-box">
+    <div class="line1">طلبات الفحص المتنوع</div>
+    <div class="line2">نيابة الشئون الاقتصادية وغسل الأموال</div>
+    <div class="line3">بالإسكندرية</div>
+  </div>
+</a>
+  
+ <a href="https://ppo.gov.eg/ppo/r/ppoportal/ppoportal/econ-aml-prosecution" class="logo-link">
+  <div class="text-box">
+    <div class="line1">طلبات الرد</div>
+    <div class="line2">نيابة الشئون الاقتصادية وغسل الأموال</div>
+    <div class="line3">بمكتب النائب العام</div>
+  </div>
+</a>
+</div>
+ <!-- رسالة التنبيه -->
+  <div id="vacationNotice">
+
+    <div class="notice-card">
+
+      <div class="notice-icon">
+        🔔
+      </div>
+
+      <h1>
+        تنبيه هام
+      </h1>
+
+      <div class="message">
+
+        <p>
+          نحيط علم سيادتكم بأن موظف الفحص قائم بإجازة
+        </p>
+
+        <p>
+          اعتبارًا من يوم
+          <span class="date">
+            السبت الموافق 15 أغسطس 2026
+          </span>
+        </p>
+
+        <p class="space-after">
+          ويسعدنا مساعدتكم وتلقي طلباتكم
+        </p>
+
+        <p>
+          اعتبارًا من يوم
+          <span class="date">
+            الأحد الموافق 23 أغسطس 2026
+          </span>
+        </p>
+
+        <p class="thanks">
+          شكرًا لحسن تعاونكم معنا
+        </p>
+
+        <button type="button" class="continue-btn" onclick="continueToSearch()">
+          استمرار البحث
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <style>
     #vacationNotice {
       display: none;
       position: fixed;
@@ -250,53 +332,11 @@ body {
       }
 
     }
-</style>
-</head>
-
-<body>
-<div id="visitorContainer">
-  <span id="visitorCount"></span>
-</div>
-<div id="main">
-
-  
-<!-- <a href="home.html" class="logo-link"> -->
-     <a href="home.html" class="logo-link" onclick="showVacationNotice(event)"></a>
-
-  <div class="text-box">
-    <div class="line1">طلبات الفحص المتنوع</div>
-    <div class="line2">نيابة الشئون الاقتصادية وغسل الأموال</div>
-    <div class="line3">بالإسكندرية</div>
-  </div>
-</a>
-  
- <a href="https://ppo.gov.eg/ppo/r/ppoportal/ppoportal/econ-aml-prosecution" class="logo-link">
-  <div class="text-box">
-    <div class="line1">طلبات الرد</div>
-    <div class="line2">نيابة الشئون الاقتصادية وغسل الأموال</div>
-    <div class="line3">بمكتب النائب العام</div>
-  </div>
-</a>
-</div>
-
+  </style>
 
 
   <script>
-
-async function updateCounter() {
-  try {
-    const res = await fetch("/api/incrementCounter");
-    const data = await res.json();
-    document.getElementById("visitorCount").innerText =
-      "عدد متلقى الخدمة " +Number(data.COUNT).toLocaleString("en-US");
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-// نحدث العداد لما الصفحة تفتح
-updateCounter(); 
-    let targetPage = "";
+ let targetPage = "";
 
     // عند الضغط على طلبات الفحص
     function showVacationNotice(event) {
@@ -316,6 +356,20 @@ updateCounter();
 
       window.location.href = targetPage;
     }
+async function updateCounter() {
+  try {
+    const res = await fetch("/api/incrementCounter");
+    const data = await res.json();
+    document.getElementById("visitorCount").innerText =
+      "عدد متلقى الخدمة " +Number(data.COUNT).toLocaleString("en-US");
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// نحدث العداد لما الصفحة تفتح
+updateCounter(); 
+   
 </script>
 </body>
 </html>
